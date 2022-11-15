@@ -1,0 +1,1 @@
+export const REPAYMENT_DETAILS_API = 'repaymentData';

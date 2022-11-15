@@ -1,0 +1,1 @@
+export const CONSENT_PENDING_API = 'consentData';

@@ -1,0 +1,16 @@
+export const PAN_REGEX = /([A-Za-z]){5}([0-9]){4}([A-Za-z]){1}$/;
+export const customerName_REGEX = /^[a-zA-Z ]*$/;
+export const PINCODE_REGEX = /^\d{6}$/;
+export const NAME_REGEX = /^[a-zA-Z\s]*$/;
+export const MOBILE_NUMBER_REGEX = /^[6-9]{1}[0-9]{9}$/;
+export const ACCOUNT_NUMBER_REGEX = /^\d{6,18}$/;
+export const IFSC_CODE_REGEX = /^[A-Za-z]{4}0[A-Za-z0-9]{6}$/;
+export const NUMBER_REGEX = /^[0-9\b]+$/;
+export const CONSUMER_NO_REGEX = /^[a-zA-Z0-9]+$/;
+export const NUMBER_REGEX1 = /\b\d[\d,]*\b/;
+export const AADHAR_REGEX = /^\d{4} \d{4} \d{4}$/;
+export const VPA_REGEX =/^[\w.-]+@[\w.-]+$/
+export const PASSPORT_REGEX = /[A-Za-z]{1}[0-9]{7}/;
+export const DLNO_REGEX = /^(([A-Z]{2}[0-9]{2})( )|([A-Z]{2}-[0-9]{2}))((19|20)[0-9][0-9])[0-9]{7}$/;
+export const EPICNO_REGEX = /^[a-z0-9/]+$/i;
+export const TELEPHONE_REGEX = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;

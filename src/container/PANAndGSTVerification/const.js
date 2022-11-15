@@ -1,0 +1,1 @@
+export const PAN_GST = 'panData';

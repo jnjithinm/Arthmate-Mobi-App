@@ -1,0 +1,1 @@
+export const OTP_VERIFICATION_API = 'otpData';

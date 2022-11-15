@@ -1,0 +1,1 @@
+export const SAVE_UPDATE_LOAN_INFO = 'loanData';

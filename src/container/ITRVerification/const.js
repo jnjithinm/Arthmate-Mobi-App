@@ -1,0 +1,1 @@
+export const GET_DDE_DATA_SUCCESS = 'ddeData';

@@ -1,0 +1,1 @@
+export const CREATE_UPDATE_CUSTOMER = 'schmes';

@@ -1,0 +1,1 @@
+export const PREDIS_DETAILS_API = 'predisData';
