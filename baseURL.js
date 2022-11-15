@@ -1,10 +1,10 @@
 export const uatURL = {
-  uatURL: 'http://3.6.137.39:8087/cwc-sales',
-  URL: 'http://3.6.137.39',
-  forgotPWD: 'http://3.6.137.39:5001/admin-login#',
-  nach: 'http://3.6.137.39:9007',
-  version: 'http://3.6.137.39:8087/cwc-sales',
-  useLogindata: 'http://3.6.137.39:8091/cwc-admin',
+  uatURL: 'http://3.110.227.60:8087/cwc-sales',
+  URL: 'http://3.110.227.60',
+  forgotPWD: 'http://3.110.227.60:5001/admin-login#',
+  nach: 'http://3.110.227.60:9007',
+  version: 'http://3.110.227.60:8087/cwc-sales',
+  useLogindata: 'http://3.110.227.60:8091/cwc-admin',
   globalLogin: 'https://www.mybizznow.com'
 };
 

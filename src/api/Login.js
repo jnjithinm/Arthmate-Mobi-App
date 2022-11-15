@@ -20,6 +20,7 @@ export async function loginApi(emailId, pwd) {
         return genericFetch(apiResponse);
 
     } catch (error) {
+        console.log("eeee",error);
         let obj = { data: { error: true, message: error } }
         return genericFetch(obj);
     };
