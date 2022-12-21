@@ -111,6 +111,7 @@ class LoanAgreement extends Component {
                 ismainapplicant: true
             },
             callback: (response) => {
+                
                 this.setState({
                     filePathInResponse: response?.data?.loanAgreementFilePath?.replace('/var/www/html', uatURL.URL),
                     uploadLoanName: response?.data?.loanAgreementFilePath == undefined ? { docName: null } : { docName: response?.data?.loanAgreementFilePath?.split('\\').pop().split('/').pop() },
@@ -201,6 +202,7 @@ class LoanAgreement extends Component {
     };
 
     loanSummary() {
+        console.log("mjjjjjjuuuuuuu");
         const dataToAPI = {
             applicant_uniqueid: this.state.applicantUniqueId,
             lead_code: this.state.leadCodeFromProps,
@@ -214,7 +216,16 @@ class LoanAgreement extends Component {
                     checkVisible: response?.mainapplicant?.signCheckBoxFreeze,
                     isViewOnly:
                         response?.mainapplicant?.agreementSectionFreeze ? true : response?.modelAccess[0]?.read ? true :
-                            false
+                        false
+                },()=>{
+                    this.props.getSactionLetter({
+                        data: {
+                            applicantUniqueId: this.state.applicantUniqueId,
+                        },
+                        callback: (response) => {
+                        //    console.log("fffffffffff",response);
+                        }
+                    })
                 })
             }
         })
@@ -493,15 +504,16 @@ class LoanAgreement extends Component {
             text
         } = LoanAgreementStyles;
 
-       
+
         const source = { uri: `${this.state.esignFilePath}`, cache: true };
-        const signer_info_buttons = (this.state.signerInfo || []).map((item, index) => (
+        const signer_info_buttons = 
+        (this.state.signerInfo || []).map((item, index) => (
             <Button customContainerStyle={{ marginRight: 10 }}
                 onPress={() => { if (!this.state.isViewOnly) { Linking.openURL(item.invitation_link) } }}
                 title={
                     item.applicantType === "MainApplicant" ? "Main Applicant" :
-                    item.applicantType === "CoApplicant" ? "Co Applicant" :
-                    item.applicantType === "Gurantor" ? "Guarantor" : ""
+                        item.applicantType === "CoApplicant" ? "Co Applicant" :
+                            item.applicantType === "Gurantor" ? "Guarantor" : ""
                 }
             >
 
@@ -518,11 +530,11 @@ class LoanAgreement extends Component {
                 <Header
                     label={LOAN_AGREEMENT_CONST.HEADER}
                     showLeftIcon={false} onPress={() => {
-}}
+                    }}
                 />
-                <View style={{ justifyContent: "center" , alignItems: 'center', padding: 20}}>
+                <View style={{ justifyContent: "center", alignItems: 'center', padding: 20 }}>
                     <Text style={mainHeadingText}>{`${this.state.getCommonData.leadName}`}</Text>
-                    <Text style={mainHeadingText}>{`Individual- ${this.state.getCommonData.salaried?  "Self-Employed" : 'Salaried'}`}</Text>
+                    <Text style={mainHeadingText}>{`Individual- ${this.state.getCommonData.salaried ? "Self-Employed" : 'Salaried'}`}</Text>
                 </View>
                 <ScrollView style={{ marginBottom: 20 }}>
                     <View style={mainContainer}>
@@ -570,7 +582,7 @@ class LoanAgreement extends Component {
                                 <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center" }}>
 
                                     <TouchableOpacity
-                                        style={[touchButton,{backgroundColor: colors.COLOR_WHITE, borderWidth: 1.5, }]}
+                                        style={[touchButton, { backgroundColor: colors.COLOR_WHITE, borderWidth: 1.5, }]}
                                         onPress={() => {
                                             this.setState({ check1: !this.state.check1, modalVisible: false })
                                         }}>
@@ -578,28 +590,33 @@ class LoanAgreement extends Component {
                                     </TouchableOpacity>
 
                                     <TouchableOpacity
-                                        style={[touchButton,{backgroundColor: colors.COLOR_LIGHT_NAVY_BLUE,}]}
+                                        style={[touchButton, { backgroundColor: colors.COLOR_LIGHT_NAVY_BLUE, }]}
                                         onPress={() => {
                                             this.props.saveSignInFlag({
                                                 data: {
                                                     applicantUniqueId: this.state.applicantUniqueId,
-                                                   
+
                                                 },
                                                 callback: (response) => {
-                                                    this.setState({  modalVisible: false },()=>{this.getApi()})
-                                                    
+                                                    console.log("reeeee",JSON.stringify(response, null, 4));
+                                                    // console.log("kkkkk",response.signDeskResponse.signdeskResponse.signer_info[0].invitation_link);
+                                                    this.setState({ modalVisible: false }, () => { 
+                                                        this.getApi()
+                                                        Linking.openURL(response?.signDeskResponse?.signdeskResponse?.signer_info[0]?.invitation_link || '')
+                                                    })
+
                                                 }
                                             })
 
                                         }}>
                                         <Text style={[text, { color: "#ffffff", textAlign: "center" }]}>Yes</Text>
                                     </TouchableOpacity>
-                                </View> 
+                                </View>
                             </View>
 
                         </Modal>
 
-                        <View style={{ flexDirection: "row", justifyContent: 'flex-start', alignItems: 'center', marginBottom: 10 }}>
+                        {/* <View style={{ flexDirection: "row", justifyContent: 'flex-start', alignItems: 'center', marginBottom: 10 }}>
                             <Text style={{
                                 color: colors.COLOR_LIGHT_NAVY_BLUE,
                                 fontFamily: APP_FONTS.NunitoBold,
@@ -615,6 +632,21 @@ class LoanAgreement extends Component {
                                 tintColors={{ true: '#334e9e', false: 'black' }}
                             />
 
+                        </View> */}
+
+                        <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center', marginBottom: 30 }}>
+                            <TouchableOpacity
+                                style={[{ width: "50%", height: 45, borderRadius: 30, justifyContent: "center", backgroundColor: colors.COLOR_LIGHT_NAVY_BLUE, }]}
+                                onPress={() => {
+                                    !this.state.checkVisible &&(
+                                    this.setState({
+                                        check1: !this.state.check1,
+                                        modalVisible: true
+                                    }))
+
+                                }}>
+                                <Text style={[text, { color: "#ffffff", textAlign: "center" }]}>Sign Sanction Letter</Text>
+                            </TouchableOpacity>
                         </View>
 
                         < Text style={agreementGreet} > {LOAN_AGREEMENT_CONST.AGREEMENT_GREET}</Text >

@@ -19,11 +19,15 @@ const downloadLoanAgreement = (actions) => {
 const saveSignIn = (actions) => {
   return { type: "SAVE_SIGN_IN", actions: actions };
 }
+const getSactionLetter = (actions) => {
+  return { type: "GET_SACTION_LETTER", actions: actions };
+}
 export {
   getEserviceCommonData,
   requestStampPaper,
   uploadLoanAgreement,
   deleteLoanAgreement,
   downloadLoanAgreement,
-  saveSignIn
+  saveSignIn,
+  getSactionLetter
 };

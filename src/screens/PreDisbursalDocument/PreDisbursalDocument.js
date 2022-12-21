@@ -2915,7 +2915,7 @@ class PreDisbursalDocument extends Component {
                     <TouchableOpacity style={collapsedViewStyle} onPress={() => {
                         this.handleCollapseExpand("delarQuotation", false);
                     }}>
-                        <Text style={pddLabel}>{"Delar Quotation*"}</Text>
+                        <Text style={pddLabel}>{"Dealer Quotation*"}</Text>
                         <Image source={BLUE_PLUS_ICON} style={plusImageStyle} />
                     </TouchableOpacity>
                 </View>
@@ -2925,7 +2925,7 @@ class PreDisbursalDocument extends Component {
                 <View style={expandedContainer}>
                     <View style={seperatorStyle} />
                     <View style={expandedViewStyle}>
-                        <Text style={pddLabel}>{"Delar Quotation*"}</Text>
+                        <Text style={pddLabel}>{"Dealer Quotation*"}</Text>
                         <TouchableOpacity onPress={() => {
                             this.handleCollapseExpand("delarQuotation", true);
                         }}>
@@ -2934,7 +2934,7 @@ class PreDisbursalDocument extends Component {
                     </View>
                     <View style={{ marginBottom: 20 }}>
                         <TextImage
-                            label="Delar Quotation Upload" />
+                            label="Dealer Quotation Upload" />
                         {this.state.delarQuotation === false && (
                             <View style={buttonContainer}>
                                 <View style={{ flex: 1, marginRight: 10 }}>

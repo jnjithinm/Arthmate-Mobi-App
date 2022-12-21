@@ -5261,6 +5261,8 @@ class AdditionalDetails extends Component {
                 handleError('Please upload document')
               }
               else {
+                // console.log("mjjjjjj",Number(this.state.addressLine1.value.length) , Number(this.state.addressLine2.value.length));
+                Number(this.state.addressLine1.value.length) < 30 && ( Number(this.state.addressLine2.value.length) < 30 ||  Number(this.state.addressLine2.value.length) == 0 )?
                 this.props.saveKYCDetail({
                   dataToAPI,
                   callback: (response) => {
@@ -5315,6 +5317,7 @@ class AdditionalDetails extends Component {
                                     type: "bureau"
                                   },
                                   callback: (response) => {
+                                    console.log("rrrrrrr",response);
                                     // this.props.createUpdateCUSTOMER({
                                     //   data: {
                                     //     applicantUniqueId: this.state.isguarantor || this.state.iscoapplicant ? this.state.coapplicantUniqueId : this.state.applicantUniqueId,
@@ -5361,7 +5364,9 @@ class AdditionalDetails extends Component {
                       });
                     }
                   },
-                });
+                })
+                :
+                handleError("Address Line requires maximum 30 characters")
               }
             }}
             customContainerStyle={
@@ -7024,7 +7029,7 @@ class AdditionalDetails extends Component {
         },
         addressLine2: {
           ...this.state.addressLine2,
-          value: response.addresdetails.line2,
+          value: response.addresdetails.line2 || '',
         },
         pincode: {
           ...this.state.pincode,
@@ -7055,7 +7060,7 @@ class AdditionalDetails extends Component {
         },
         addressLine2: {
           ...this.state.addressLine2,
-          value: response.addressDetails.line2,
+          value: response.addressDetails.line2 || '',
         },
         pincode: {
           ...this.state.pincode,
@@ -7077,7 +7082,7 @@ class AdditionalDetails extends Component {
         },
         addressLine2: {
           ...this.state.addressLine2,
-          value: response.addresdetails.line2,
+          value: response.addresdetails.line2 || '',
         },
         pincode: {
           ...this.state.pincode,

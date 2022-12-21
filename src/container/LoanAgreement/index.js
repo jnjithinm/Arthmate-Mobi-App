@@ -18,6 +18,7 @@ function mapDispatchToProps(dispatch) {
             getEserviceCommonData: actions.getEserviceCommonData,
             requestStampPaper: actions.requestStampPaper,
             uploadLoanAgreement: actions.uploadLoanAgreement,
+            getSactionLetter: actions.getSactionLetter,
             deleteLoanAgreement: actions.deleteLoanAgreement,
             downloadLoanAgreement: actions.downloadLoanAgreement,
             saveSignInFlag: actions.saveSignIn,

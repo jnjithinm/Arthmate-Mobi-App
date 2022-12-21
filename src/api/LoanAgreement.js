@@ -181,3 +181,30 @@ export async function saveSignIn(token, data) {
 
     return apiResponse.data;
 }
+
+export async function getSactionLetterApi(token, data) {
+    const requestOption = {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        data: {
+            applicantUniqueId: data.applicantUniqueId,
+        },
+        url: config.GET_SACTION_LETTER,
+    };
+    const apiResponse = await axios(requestOption)
+        .then(function (response) {
+            if (response && response.data && !response.data.error) {
+                return genericFetch(response);
+            } else {
+                throw response.data.message;
+            }
+        })
+        .catch(function (error) {
+            throw error;
+        });
+
+    return apiResponse.data;
+}

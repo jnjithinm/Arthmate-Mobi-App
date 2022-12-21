@@ -383,7 +383,7 @@ class LeadList extends Component {
                           item.consentStatus.toLowerCase() !== 'consent approved'
                         ) {
                           //LoanSummary KycVerification LoanDetails RepaymentDetails Schemes PersonalDetails Dedupe AdditionalDetails References BusinessDetails
-                          this.props.navigation.navigate('LoanSummary', {
+                          this.props.navigation.navigate('LoanDetails', {
                             leadCode: item.leadCode,
                             mobileNumber: item.customerMobile,
                             leadName: item.leadName,
@@ -392,7 +392,7 @@ class LeadList extends Component {
                           })
                         } else {
                           //PANAndGSTVerification
-                          this.props.navigation.navigate('PANAndGSTVerification', {
+                          this.props.navigation.navigate('LoanDetails', {
                             leadCode: item.leadCode,
                             mobileNumber: item.customerMobile,
                             leadName: item.leadName,

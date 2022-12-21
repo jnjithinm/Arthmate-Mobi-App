@@ -23,6 +23,7 @@ import { handleError } from '../../../utils';
 
 const roiRegex = /^(100|([0-9][0-9]?(\.[0-9]+)?))$/;
 const NAME_REGEX = /^[a-zA-Z\s]*$/;
+var tempValue = 0
 class LoanDetails extends Component {
   constructor(props) {
     super(props);
@@ -285,7 +286,7 @@ class LoanDetails extends Component {
         let emi = ee
 
         let fees = 5 /100 * (Number(this.state.valueaR) )
-        
+        console.log("fffff",fees);
         emi = Math.ceil(emi);
         this.setState({processingCharges: fees })
         return this.setState({ emi })
@@ -2265,12 +2266,16 @@ class LoanDetails extends Component {
         {this.state.valueaR != '' ?
           <Text style={[textEMI, { fontSize: 16, marginTop: 20 }]}>{` ${`Amount Requested: ${'\u20B9'} ${Number(this.state.valueaR)}`}`} </Text>
           : null}
-           {this.state.valueaR != '' ?
+           {/* {this.state.valueaR != '' ?
           <Text style={[textEMI, { fontSize: 16, marginTop: 20 }]}>{` ${`Processing Fees (5%): ${'\u20B9'} ${Number(this.state.processingCharges)}`}`} </Text>
-          : null}
-         
+          : null} */}
+                {/* {console.log("mmmmmmm",(Number(this.state.valueaR) - Number(this.state.processingFees.value)).toString().replace('-', '') - Number( 18 /100 * (Number(this.state.processingFees.value)))- Number(this.state.nachCharges.value) -Number(this.state.podCharges.value) - Number(this.state.dealerCharges.value) -Number(this.state.bureauCharges.value) -Number(this.state.otherCharges.value))} */}
+
+         {/* Loan Amount - Processing Fees - GST on prossessing fees - NACH Charges - PDD Charges - Dealer Charges - Bureau Charges - Other Charges */}
+       {/* { tempValue = 18 /100 * (Number(this.state.processingCharges) )} */}
+       {console.log("mmmmmmm",(Number(this.state.valueaR) , Number(this.state.processingCharges)).toString().replace('-', '') , Number( 18 /100 * (Number(this.state.processingFees.value))), Number(this.state.nachCharges.value) ,Number(this.state.podCharges.value) ,Number(this.state.dealerCharges.value) ,Number(this.state.bureauCharges.value) ,Number(this.state.otherCharges.value))}
          {this.state.valueaR != '' ?
-          <Text style={[textEMI, { fontSize: 16, marginTop: 15 }]}>{` ${`Final disbursement amount: ${'\u20B9'} ${(Number(this.state.valueaR) - Number(this.state.processingCharges)).toString().replace('-', '')}`}`} </Text>
+          <Text style={[textEMI, { fontSize: 16, marginTop: 15 }]}>{` ${`Net disbursement amount: ${'\u20B9'} ${(Number(this.state.valueaR) - Number(this.state.processingCharges)).toString().replace('-', '') - Number( 18 /100 * (Number(this.state.processingFees.value)))- Number(this.state.nachCharges.value) -Number(this.state.podCharges.value) -Number(this.state.dealerCharges.value) -Number(this.state.bureauCharges.value) -Number(this.state.otherCharges.value)}`}`} </Text>
           : null}
 
         {this.state.valueaR != '' ?
@@ -2693,7 +2698,7 @@ class LoanDetails extends Component {
             <View style={{ width: this.state.pfAmountType.value == 'Number' ? "100%" : '80%', marginTop: 14 }}>
               <FloatingLabelInput
                 // editable={!this.state.isViewOnly}
-                // editable={false}
+                editable={false}
                 label={LOANDETAILS_CONST.PROCESSINGFEES}
                 containerStyles={inputStyle1}
                 maxLength={10}

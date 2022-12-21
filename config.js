@@ -88,20 +88,23 @@ LIST_CASE_DETAILS: `${uatURL.uatURL}/lead/listCaseStatus`,
   GET_UTILITY_DOC_OTHER: `${uatURL.uatURL}/master/getutilitybilltype`,
   GET_SERVICE_PROVIDER_LIST: `${uatURL.uatURL}/master/getelectricompanycodelist`,
   SAVE_UTILITY_DETAILS: `${uatURL.uatURL}/utility/saveOrUpdateUtilityBill`,
-  GET_DETAILS_ELECTRICITY: `https://uc9q5045lj.execute-api.us-east-2.amazonaws.com/Test/electricity-bill-authentication`,
-  GET_DETAILS_GAS: `https://uc9q5045lj.execute-api.us-east-2.amazonaws.com/Test/lpg-id-authentication`,
-  GET_DETAILS_LANDLINE: `https://uc9q5045lj.execute-api.us-east-2.amazonaws.com/Test/telephone-landline-authentication`,
+  GET_DETAILS_ELECTRICITY: `${uatURL.uatURL}/wrapper/electricity-bill-authentication`,
+   // `https://uc9q5045lj.execute-api.us-east-2.amazonaws.com/Test/electricity-bill-authentication`,
+  GET_DETAILS_GAS:`${uatURL.uatURL}/wrapper/lpg-authentication`,
+  //  `https://uc9q5045lj.execute-api.us-east-2.amazonaws.com/Test/lpg-id-authentication`,
+  GET_DETAILS_LANDLINE: `${uatURL.uatURL}/wrapper/telephone-authentication`,
+  // `https://uc9q5045lj.execute-api.us-east-2.amazonaws.com/Test/telephone-landline-authentication`,
   
   UTILIY_VOTER_VERIFY: `${uatURL.uatURL}/utility/karzaVoterIdVerification`,
   UTILIY_LANDLINE_VERIFY: `${uatURL.uatURL}/utility/karzaTeleLandLineVerification`,
   UTILIY_DRIVING_VERIFY: `${uatURL.uatURL}/utility/driverLicenceVerification`,
-  UTILIY_PASSPORT_VERIFY: `${uatURL.uatURL}/utility/karzaPassportVerification`,
   UTILIY_GAS_VERIFY: `${uatURL.uatURL}/utility/karzaPngeVerification`,
 
   UPLOAD_UTILIY_DOC: `${uatURL.uatURL}/utility/uploadUtilityDoc`,
   DELETE_UPLOADED_UTILITY_DOC: `${uatURL.uatURL}/utility/deleteUtilityBill`,
   VERIFY_DRIVING_LICENSE: `${uatURL.uatURL}/addetails/dlVerifyDetails`,
   VERIFY_VOTER_ID: `${uatURL.uatURL}/addetails/voterVerifyDetails`,
+  UTILIY_PASSPORT_VERIFY: `${uatURL.uatURL}/utility/karzaPassportVerification`,
   GET_DESIGNATION: `${uatURL.uatURL}/qde/gettypeofdesignation`,
   GET_INDUSTRY: `${uatURL.uatURL}/master/getEmploymentIndustry`,
   GET_COMPANY_TYPE: `${uatURL.uatURL}/master/getEmploymentConstitution`,
@@ -126,6 +129,7 @@ LIST_CASE_DETAILS: `${uatURL.uatURL}/lead/listCaseStatus`,
   LOAN_AGREEMENT_DELETE: `${uatURL.uatURL}/eService/deleteLoanAgreement`,
   LOAN_AGREEMENT_DOWNLOAD: `${uatURL.uatURL}/eService/downloadLoanAgreement`,
   SAVE_SIGN_IN: `${uatURL.uatURL}/eService/saveEsignCheck`,
+  GET_SACTION_LETTER: `${uatURL.uatURL}/eService/getEsignDocumentSactionLetter`,
 
   GET_LOAN_SUMMARY: `${uatURL.uatURL}/casesummary/getcasesummarydetails`,
   GET_QDE_COMMON_API: `${uatURL.uatURL}/qde/getqdedetailsbyapplicantuniqid`,
@@ -154,11 +158,25 @@ LIST_CASE_DETAILS: `${uatURL.uatURL}/lead/listCaseStatus`,
   DELETE_SELFIE: `${uatURL.uatURL}/qde/deleteSelfie`,
   SAVEDISBURSEMENT_REPAYMENTDETAILS: `${uatURL.uatURL}/repayment/submit`,
   GET_REPAYMENT_DETAILS: `${uatURL.uatURL}/repayment/get`,
-  
-  VALIDATE_VPA: `${uatURL.nach}/CAMPSPay-enach/enach/toValidateVpa`,
-  SUBMIT_VPA: `${uatURL.nach}/CAMPSPay-enach/enach/createMandateForVpa`,
 
-  SUBMIT_ENACH: `${uatURL.nach}/CAMPSPay-enach/enach/registerEnach?`,
+
+ 
+// http://3.110.227.60:8087/cwc-sales/wrapper/electricity-bill-authentication
+// http://3.110.227.60:8087/cwc-sales/wrapper/lpg-authentication
+// http://3.110.227.60:8087/cwc-sales/wrapper/telephone-authentication
+// http://3.110.227.60:8087/cwc-sales/wrapper/register-enach
+// http://3.110.227.60:8087/cwc-sales/wrapper/validate-vpa
+// http://3.110.227.60:8087/cwc-sales/wrapper/create-mandate-for-vpa
+
+ 
+  
+  VALIDATE_VPA: `${uatURL.uatURL}/wrapper/validate-vpa`,
+  //  `${uatURL.nach}/CAMPSPay-enach/enach/toValidateVpa`,
+  SUBMIT_VPA: `${uatURL.uatURL}/wrapper/create-mandate-for-vpa`,
+  // `${uatURL.nach}/CAMPSPay-enach/enach/createMandateForVpa`,
+  SUBMIT_ENACH: `${uatURL.uatURL}/wrapper/register-enach?`,
+  // `${uatURL.nach}/CAMPSPay-enach/enach/registerEnach?`,
+
   GET_NACH_DATA: `${uatURL.uatURL}/repayment/getApplicantDetailsForCampsPayEnach`,
   SAVE_REPAYMENT_DETAILS: `${uatURL.uatURL}/repayment/save`,
   GETDISBURSEMENT_REPAYMENTDETAILS: `${uatURL.uatURL}/repayment/getdisbursement`,

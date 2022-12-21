@@ -8,13 +8,15 @@ export const uatURL = {
   globalLogin: 'https://www.mybizznow.com'
 };
 
+
+
 // export const uatURL = {
-//   uatURL: 'http://13.126.101.33:8087/cwc-sales',
-//   URL: 'http://13.126.101.33',
-//   forgotPWD: 'https://app.creditwisecapital.in/admin',
-//   nach: 'http://13.126.101.33:9007',
-//   version: 'http://13.126.101.33:8087/cwc-sales',
-//   useLogindata: 'http://13.126.101.33:8091/cwc-admin',
+//   uatURL: 'http://3.6.236.112:8087/cwc-sales',
+//   URL: 'http://3.6.236.112',
+//   forgotPWD: 'http://3.6.236.112:5001/admin-login#',
+//   nach: 'http://3.6.236.112:9007',
+//   version: 'http://3.6.236.112:8087/cwc-sales',
+//   useLogindata: 'http://3.6.236.112:8091/cwc-admin',
 //   globalLogin: 'https://www.mybizznow.com'
 // };
    

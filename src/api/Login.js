@@ -15,6 +15,7 @@ export async function loginApi(emailId, pwd) {
         },
         url: config.LOGIN_URL,
     };
+    console.log("requestOption",requestOption);
     try {
         const apiResponse = await axios(requestOption)
         return genericFetch(apiResponse);

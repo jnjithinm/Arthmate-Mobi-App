@@ -89,7 +89,7 @@ import {
   requestStampPaperSaga,
   uploadLoanAgreementSaga,
   saveSignInFlag,
-
+getSactionLetterFlag
 
 } from './src/container/LoanAgreement/sagas';
 import {
@@ -252,6 +252,7 @@ function* watchers() {
   yield takeEvery('LOAN_AGREEMENT_DELETE_API', deleteLoanAgreementSaga);
   yield takeEvery('LOAN_AGREEMENT_DOWNLOAD_API', downloadLoanAgreementSaga);
   yield takeEvery('SAVE_SIGN_IN', saveSignInFlag);
+  yield takeEvery('GET_SACTION_LETTER', getSactionLetterFlag);
 
   yield takeEvery('SUBMIT_TO_CREDIT_LOAN_API', submitToCreditSaga);
   yield takeEvery('GET_REASON_MASTER_LIST', getReasonMasterListSaga);

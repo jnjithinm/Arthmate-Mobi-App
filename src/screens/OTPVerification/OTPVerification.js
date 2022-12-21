@@ -73,7 +73,16 @@ class OTPVerification extends Component {
                     />
                     <Text style={textStyleOTPCheck}
                     >
-                        {`I, ${this.state.leadName} agree to the terms & conditions attached herewith.`}
+                        {`It is advised to read the terms and conditions before applying vehicle loan from the mobile application of Mamta Projects Private Limited (“MPPL”) designed for the purpose of facilitating the vehicle loan needs of the customers.
+
+The customer must furnish its basic information like Name, Address, Mobile Number, Email Address etc. and submit its KYC documents, income proofs, bank statements, income tax returns, financial statements to MPPL before applying for the loan on the mobile application. The customer understands and agrees that the documents and information is required by MPPL for sanctioning loan to the customer. 
+
+The customer hereby authorises MPPL to fetch its credit reports from different credit rating agencies including but not limited to TransUnion, Experian etc. for conducting the eligibility checks and checking the credit history of the customer prior to the sanctioning of the loan. 
+
+The customer(s) hereby agrees and give consent for disclosure by MPPL all or any (a) information and data relating to the customer / borrower(s) (b) information or data relating to any credit facility availed or/to be availed by the customer / borrower(s) and default, if any, committed by the borrower(s) in discharge of his/their such obligation as MPPL may deem appropriate and necessary, to disclose and furnish to Credit Information Bureau (India) Ltd. (CIBIL), and any other agency authorized in this behalf by RBI.
+
+The customer understands that the loan sanctioned by MPPL shall be subject to a rate of interest calculated by MPPL upon various factors including but not limited to eligibility criteria and credit norms of MPPL and the rate of interest may be varied by MPPL depending upon case to case basis or due to any change in statutory and / regulatory guideline and the customer agrees to abide by the same.
+`}
                     </Text>
                 </View>
                 <View style={{ flexDirection: "row", marginTop: 10, }}>
@@ -85,7 +94,7 @@ class OTPVerification extends Component {
                     />
                     <Text style={textStyleOTPCheck}
                     >
-                        {`I, ${this.state.leadName}, agree to consent CreditWise Captial for collecting my Aadhaar/Driving liscence and storing and using the same for KYC purpose.`}
+                        {`I, ${this.state.leadName}, agree to consent Arthmate for collecting my Aadhaar/Driving license and storing and using the same for KYC purpose.`}
                     </Text>
                 </View>
             </View>

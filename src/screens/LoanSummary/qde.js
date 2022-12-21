@@ -15,7 +15,7 @@ const labelTitles = {
   loanOffer: 'Loan Offer',
   panAndGst: 'Pan & Gst Verification',
   reference: 'References',
-  scheme: 'Schemes',
+  // scheme: 'Schemes',
   personalDetailsFlag: 'Personal Details',
 };
 
@@ -25,7 +25,7 @@ const qdeSections = [
   'personalDetailsFlag',
   'loanDetails',
   'reference',
-  'scheme',
+  // 'scheme',
 ];
 
 const qdeSectionsforSelfEmp = [
@@ -245,7 +245,6 @@ function qde(props) {
           </TouchableOpacity>
         </View>
         <Divider style={{ marginVertical: 10 }} />
-
         {indSelfSoleFlag == false && qdeSections.map((item) => (
           <View style={editContainerStyle}>
             {

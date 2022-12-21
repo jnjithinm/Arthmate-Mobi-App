@@ -545,7 +545,7 @@ class RepaymentDetails extends Component {
                 <View style={[buttonNavigation, { justifyContent: 'center', alignItems: 'center', marginBottom: 10 }]}>
                     <View style={{ width: "50%", }}>
                         <Button
-                            title={"Submit toeNACH"}
+                            title={"Submit to eNACH"}
                             isDisabled={
                                 this.state.mode == 'A' ?
                                     (this?.state?.debitStartDate?.value == '') || this.state.adharID == "" || !this.state.adharIdValid

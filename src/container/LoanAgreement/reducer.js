@@ -95,6 +95,21 @@ export const loanAgreementReducer = (state = initialState, action) => {
                 showLoader: false,
                 error: true,
             };
+            case 'GET_SACTION_LETTER':
+                return {
+                    showLoader: true,
+                    error: false,
+                };
+            case 'GET_SACTION_LETTER_SUCCESS':
+                return {
+                    showLoader: false,
+                    error: false,
+                };
+            case 'GET_SACTION_LETTER_FAILURE':
+                return {
+                    showLoader: false,
+                    error: true,
+                };
         default:
             return state;
     }

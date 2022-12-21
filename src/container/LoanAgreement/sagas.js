@@ -1,5 +1,5 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects';
-import { getEserviceCommonData, requestStampPaper, saveSignIn, uploadLoanAgreement, deleteLoanAgreement, downloadLoanAgreement } from "../../api/LoanAgreement";
+import { getEserviceCommonData, requestStampPaper, getSactionLetterApi, saveSignIn, uploadLoanAgreement, deleteLoanAgreement, downloadLoanAgreement } from "../../api/LoanAgreement";
 import { handleError, handleSuccess } from "../../../utils";
 import { userDataSelector } from "../App/selector";
 
@@ -16,8 +16,9 @@ export function* getEserviceCommonDataSaga(action) {
             }
         }
     } catch (error) {
+        console.log("eeeeeee",error);
         yield put({ type: 'GET_ESERVICE_COMMON_DATA_FAILURE' });
-        yield call(handleError, error);
+        // yield call(handleError, error);
     }
 }
 
@@ -98,11 +99,28 @@ export function* saveSignInFlag(action) {
             yield put({ type: 'SAVE_SIGN_IN_SUCCESS' });
             yield call(handleSuccess, mainResponse['message']);
             if (action.actions && action.actions.callback) {
-                action.actions.callback(mainResponse.data || {});
+                action.actions.callback(mainResponse || {});
             }
         }
     } catch (error) {
         yield put({ type: 'SAVE_SIGN_IN_FAILURE' });
+        yield call(handleError, error);
+    }
+}
+
+export function* getSactionLetterFlag(action) {
+    try {
+        const token = yield select(store => store.userData.token);
+        const mainResponse = yield call(getSactionLetterApi, token, action.actions.data);
+        if (mainResponse && mainResponse.statusCode && mainResponse.statusCode == 200) {
+            yield put({ type: 'GET_SACTION_LETTER_SUCCESS' });
+            yield call(handleSuccess, mainResponse['message']);
+            if (action.actions && action.actions.callback) {
+                action.actions.callback(mainResponse || {});
+            }
+        }
+    } catch (error) {
+        yield put({ type: 'GET_SACTION_LETTER_FAILURE' });
         yield call(handleError, error);
     }
 }

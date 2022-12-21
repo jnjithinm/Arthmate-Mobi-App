@@ -426,12 +426,12 @@ class QdeSuccess extends Component {
                 )}
                 {isMainApplicant && (
                   <View style={{ flexDirection: 'row' }}>
-                    <View style={{ flexDirection: 'column' }}>
+                    {/* <View style={{ flexDirection: 'column' }}>
                       <Text style={LightText}>
                         {QDESUCCESS_CONST.RATEOFINTEREST}
                       </Text>
                       <Text style={DarkText}>{`${rateOfInterest} %`}</Text>
-                    </View>
+                    </View> */}
 
                     <View style={{ flexDirection: 'column', flex: 2 }}>
                       <Text style={LightText}>{QDESUCCESS_CONST.EMIAMOUNT}</Text>
@@ -521,7 +521,7 @@ class QdeSuccess extends Component {
                     style={buttonContainerButtons}
                     title={QDESUCCESS_CONST.BUTTON_TITLE_SUBMIT}
                     onPress={() => {
-                      console.log("mjjjjj");
+                      // console.log("mjjjjj");
                       this.state.creditVisible ?
                         handleError("Co-Applicant/ Guaranter are mandatory") :
                         this.setState({ isVisible: true })

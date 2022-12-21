@@ -124,8 +124,8 @@ export async function gnerateNachToken(token, data) {
             loanId: data.applicantUniqueId,
         },
         // url:  `${uatURL.nach}/paynimoenach/enach/getEnachResponseData`,
-        url:  `${uatURL.nach}/CAMPSPay-enach/enach/getCampsPayEnachResponse`,
-
+        // url:  `${uatURL.nach}/CAMPSPay-enach/enach/getCampsPayEnachResponse`,
+        url:  `${uatURL.uatURL}/wrapper/getCampsPayEnachResponse`,
     };
 
     try {
@@ -141,7 +141,6 @@ export async function gnerateNachToken(token, data) {
 export async function getNachData(token, data) {
     const requestOption = {
         method: 'GET',
-
         headers: {
             'content-type': 'application/json',
             Authorization: `Bearer ${token}`,
@@ -166,7 +165,6 @@ export async function saveDisbursementRepaymentDetails(token, data) {
 
     const requestOption = {
         method: 'POST',
-
         headers: {
             'content-type': 'application/json',
             Authorization: `Bearer ${token}`,
