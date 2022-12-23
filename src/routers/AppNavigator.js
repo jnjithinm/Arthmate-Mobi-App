@@ -9,6 +9,7 @@ import ConsentPending from '../screens/ConsentPending/ConsentPending';
 import KycVerification from '../screens/ConsentPending/KycVerification';
 import Dashboard from '../screens/Dashboard/Dashboard';
 import EmiCalculator from '../screens/Dashboard/EmiCalculator';
+import CaseReject from '../screens/Dashboard/CaseReject';
 import Edit from '../screens/Edit/Edit';
 //DDE Screen
 import ITRVerification from '../screens/ITRVerification/ITRVerification';
@@ -40,6 +41,7 @@ const AuthStack = createStackNavigator(
     Login: { screen: Login },
     Dashboard: { screen: Dashboard },
     EmiCalculator: { screen: EmiCalculator },
+    CaseReject: { screen: CaseReject },
     LeadList: { screen: LeadList },
     AddLead: { screen: AddLead },
     ConsentPending: { screen: ConsentPending },

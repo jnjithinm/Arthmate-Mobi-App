@@ -91,7 +91,7 @@ function qde(props) {
         panAndGst,
         reference,
         saveScheme,
-        scheme,
+        // scheme,
       } = props.data;
       // if(dedupeStatus){
       //   props.navigate('Dedupe', navigationPayload);
@@ -124,13 +124,13 @@ function qde(props) {
 
       
       //changes Schemes
-      if (
-        (!scheme && ismainapplicant) ||
-        (ismainapplicant && scheme && !saveScheme)
-      ) {
-        props.navigate('Schemes', navigationPayload);
-        return;
-      }
+      // if (
+      //   (!scheme && ismainapplicant) ||
+      //   (ismainapplicant && scheme && !saveScheme)
+      // ) {
+      //   props.navigate('Schemes', navigationPayload);
+      //   return;
+      // }
       if (!ismainapplicant && panAndGst && additionalDetails && personalDetailsFlag) {
         props.navigate('PersonalDetails', navigationPayload);
         return;
@@ -157,7 +157,7 @@ function qde(props) {
         panAndGst,
         reference,
         saveScheme,
-        scheme,
+        // scheme,
       } = props.data;
       // if(dedupeStatus){
       //   props.navigate('Dedupe', navigationPayload);
@@ -190,13 +190,13 @@ function qde(props) {
 
     
       //changes Schemes
-      if (
-        (!scheme && ismainapplicant) ||
-        (ismainapplicant && scheme && !saveScheme)
-      ) {
-        props.navigate('Schemes', navigationPayload);
-        return;
-      }
+      // if (
+      //   (!scheme && ismainapplicant) ||
+      //   (ismainapplicant && scheme && !saveScheme)
+      // ) {
+      //   props.navigate('Schemes', navigationPayload);
+      //   return;
+      // }
       if (!ismainapplicant && panAndGst && additionalDetails && businessDetails) {
         props.navigate('businessDetails', navigationPayload);
         return;

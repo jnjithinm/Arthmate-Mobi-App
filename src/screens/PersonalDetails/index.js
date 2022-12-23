@@ -145,16 +145,16 @@ function PersonalDetails(props) {
   const [accountHolderName, setAccountHolderName] = useState('');
 
   const redirect = async () => {
-    const QDEData = await getQDEDataAPI({
-      applicant_uniqueid: iscoapplicant || isguarantor ? coapplicantUniqueId : applicantUniqueId,
-      ismainapplicant: ismainapplicant,
-      isguarantor: isguarantor,
-      token,
-      dispatch
-    });
-
+    // const QDEData = await getQDEDataAPI({
+    //   applicant_uniqueid: iscoapplicant || isguarantor ? coapplicantUniqueId : applicantUniqueId,
+    //   ismainapplicant: ismainapplicant,
+    //   isguarantor: isguarantor,
+    //   token,
+    //   dispatch
+    // });
+console.log("iscoapplicant || isguarantor", iscoapplicant , isguarantor);
     if (iscoapplicant || isguarantor) {
-
+console.log("mjjjjbbbbbbbb");
       // const response = await createUpdateCUSTOMER({ applicant_uniqueid: coapplicantUniqueId, ismainapplicant: ismainapplicant, isguarantor: isguarantor, token, dispatch });
       // if (
       //   response &&
@@ -675,7 +675,7 @@ function PersonalDetails(props) {
       />
       <View style={{ alignContent: 'center' }}>
         <View style={{}}>
-          <DottedProgressBar totalSteps={iscoapplicant || isguarantor ? [1, 2, 3] : [1, 2, 3, 4, 5, 6]} currentIndex={3} />
+          <DottedProgressBar totalSteps={iscoapplicant || isguarantor ? [1, 2, 3,4] : [1, 2, 3, 4, 5, 6]} currentIndex={3} />
         </View>
       </View>
       <View style={PersonalDetailsStyles.mainContainer}>

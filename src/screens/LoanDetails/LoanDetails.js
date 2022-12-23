@@ -272,26 +272,26 @@ class LoanDetails extends Component {
   }
 
   emiamount = () => {
-   
+
     if (this.state.valueRateofInterest.value != '' &&
       this.state.valueRateofInterest.value != null &&
       this.state.valueRateofInterest.isValid) {
 
-      
-        let aa = ((parseFloat(this.state.valueaR)) * ((parseFloat(this.state.valueRateofInterest.value) / 100) / 12))
-        let bb = (Math.pow((1+ (parseFloat(this.state.valueRateofInterest.value) / 100)/12),this.state.valuetR))
-        let cc = (Math.pow((1+ (parseFloat(this.state.valueRateofInterest.value)/100)/12),this.state.valuetR))-1
-        var dd = bb / cc
-        var ee = aa * dd
-        let emi = ee
 
-        let fees = 5 /100 * (Number(this.state.valueaR) )
-        console.log("fffff",fees);
-        emi = Math.ceil(emi);
-        this.setState({processingCharges: fees })
-        return this.setState({ emi })
+      let aa = ((parseFloat(this.state.valueaR)) * ((parseFloat(this.state.valueRateofInterest.value) / 100) / 12))
+      let bb = (Math.pow((1 + (parseFloat(this.state.valueRateofInterest.value) / 100) / 12), this.state.valuetR))
+      let cc = (Math.pow((1 + (parseFloat(this.state.valueRateofInterest.value) / 100) / 12), this.state.valuetR)) - 1
+      var dd = bb / cc
+      var ee = aa * dd
+      let emi = ee
 
-     
+      let fees = 5 / 100 * (Number(this.state.valueaR))
+      console.log("fffff", fees);
+      emi = Math.ceil(emi);
+      this.setState({ processingCharges: fees })
+      return this.setState({ emi })
+
+
     }
   }
   isNameNominee(text) {
@@ -793,7 +793,7 @@ class LoanDetails extends Component {
     this.setState({ selectedSourceType2: value.title }, () => this.emiamount());
   }
   selectRadioButton3(value, index) {
-    this.setState({ selectedSourceType3: value.title, selectedSourceType4: value.title == "No" ? "No": this.state.selectedSourceType4}, () => this.emiamount());
+    this.setState({ selectedSourceType3: value.title, selectedSourceType4: value.title == "No" ? "No" : this.state.selectedSourceType4 }, () => this.emiamount());
   }
   selectRadioButton4(value, index) {
     this.setState({ selectedSourceType4: value.title }, () => this.emiamount());
@@ -810,9 +810,9 @@ class LoanDetails extends Component {
       callback: (response) => {
         this.setState({
           isViewOnly:
-            response?.mainapplicant?.loanSchemeFreeze ? true :
-              response?.modelAccess[0]?.read ? true :
-                false,
+            // response?.mainapplicant?.loanSchemeFreeze ? true :
+            //   response?.modelAccess[0]?.read ? true :
+            false,
           branchName: response.branchName
 
         }, () => {
@@ -1395,7 +1395,7 @@ class LoanDetails extends Component {
                       id: model.id,
                     });
                   }
-                
+
                   this.setState({
                     dropDownItemModel: [...tempModelArray] || [],
                     loanVehicleModel: { isValid: true },
@@ -2085,7 +2085,7 @@ class LoanDetails extends Component {
                 this.isAddressNominee(this.state.addressNominee.value)
               )
                 : null)
-                
+
               this.isDealerSubvention(this.state.dealerSubvention.value);
               this.isAdminFees(this.state.adminFees.value);
               this.isNachCharges(this.state.nachCharges.value);
@@ -2266,18 +2266,29 @@ class LoanDetails extends Component {
         {this.state.valueaR != '' ?
           <Text style={[textEMI, { fontSize: 16, marginTop: 20 }]}>{` ${`Amount Requested: ${'\u20B9'} ${Number(this.state.valueaR)}`}`} </Text>
           : null}
-           {/* {this.state.valueaR != '' ?
+        {/* {this.state.valueaR != '' ?
           <Text style={[textEMI, { fontSize: 16, marginTop: 20 }]}>{` ${`Processing Fees (5%): ${'\u20B9'} ${Number(this.state.processingCharges)}`}`} </Text>
           : null} */}
-                {/* {console.log("mmmmmmm",(Number(this.state.valueaR) - Number(this.state.processingFees.value)).toString().replace('-', '') - Number( 18 /100 * (Number(this.state.processingFees.value)))- Number(this.state.nachCharges.value) -Number(this.state.podCharges.value) - Number(this.state.dealerCharges.value) -Number(this.state.bureauCharges.value) -Number(this.state.otherCharges.value))} */}
+        {console.log("mmmmmmm",(Number(this.state.valueaR) - Number(this.state.processingFees.value)).toString().replace('-', '') - Number( 18 /100 * (Number(this.state.processingFees.value)))- Number(this.state.nachCharges.value) -Number(this.state.podCharges.value) - Number(this.state.dealerCharges.value) -Number(this.state.bureauCharges.value) -Number(this.state.otherCharges.value))}
 
-         {/* Loan Amount - Processing Fees - GST on prossessing fees - NACH Charges - PDD Charges - Dealer Charges - Bureau Charges - Other Charges */}
-       {/* { tempValue = 18 /100 * (Number(this.state.processingCharges) )} */}
-       {console.log("mmmmmmm",(Number(this.state.valueaR) , Number(this.state.processingCharges)).toString().replace('-', '') , Number( 18 /100 * (Number(this.state.processingFees.value))), Number(this.state.nachCharges.value) ,Number(this.state.podCharges.value) ,Number(this.state.dealerCharges.value) ,Number(this.state.bureauCharges.value) ,Number(this.state.otherCharges.value))}
-         {this.state.valueaR != '' ?
-          <Text style={[textEMI, { fontSize: 16, marginTop: 15 }]}>{` ${`Net disbursement amount: ${'\u20B9'} ${(Number(this.state.valueaR) - Number(this.state.processingCharges)).toString().replace('-', '') - Number( 18 /100 * (Number(this.state.processingFees.value)))- Number(this.state.nachCharges.value) -Number(this.state.podCharges.value) -Number(this.state.dealerCharges.value) -Number(this.state.bureauCharges.value) -Number(this.state.otherCharges.value)}`}`} </Text>
+        {/* Loan Amount - Processing Fees - GST on prossessing fees - NACH Charges - PDD Charges - Dealer Charges - Bureau Charges - Other Charges */}
+        {/* { tempValue = 18 /100 * (Number(this.state.processingCharges) )} */}
+        {console.log("proceeee", Number(this.state.valueaR), 18 /100 * (Number(this.state.processingCharges)))}
+        {console.log("processingCharges", Number(this.state.processingCharges))}
+        {console.log("processingFees", Number(this.state.processingFees.value))}
+        {console.log("nachCharges", Number(this.state.nachCharges.value))}
+        {console.log("podCharges", Number(this.state.podCharges.value))}
+        {console.log("dealerCharges", Number(this.state.dealerCharges.value))}
+        {console.log("bureauCharges", Number(this.state.bureauCharges.value))}
+        {console.log("otherCharges", Number(this.state.otherCharges.value))}
+
+        {this.state.valueaR != '' ?
+          <Text style={[textEMI, { fontSize: 16, marginTop: 15 }]}>{` ${`Net disbursement amount: ${'\u20B9'} ${(Number(this.state.valueaR) - Number(this.state.processingCharges)).toString().replace('-', '') - Number(18 / 100 * (Number(this.state.processingCharges))) - Number(this.state.nachCharges.value) - Number(this.state.podCharges.value) - Number(this.state.dealerCharges.value) - Number(this.state.bureauCharges.value)}`}`} </Text>
           : null}
 
+{
+  console.log("vvvvvvv",(Number(this.state.valueaR) , Number(this.state.processingCharges)).toString().replace('-', '') , Number(18 / 100 * (Number(this.state.processingCharges))) , Number(this.state.nachCharges.value) , Number(this.state.podCharges.value) , Number(this.state.dealerCharges.value) , Number(this.state.bureauCharges.value) , Number(this.state.otherCharges.value))
+}
         {this.state.valueaR != '' ?
           <Text style={[textEMI, { fontSize: 16, marginTop: 20, padding: 5 }]}>{`To increase LTV on above Approved Loan , add Ownership Proof`} </Text>
           : null}

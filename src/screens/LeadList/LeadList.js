@@ -232,6 +232,7 @@ class LeadList extends Component {
   }
 
   renderRow(item, index) {
+    // console.log("itemmm",item);
     const {
       lableStyle,
       lableStyleButton,
@@ -308,14 +309,14 @@ class LeadList extends Component {
               </View>
 
               <View style={[dataContainer, { marginTop: 5, marginBottom: 10 }]}>
-                {
+                {/* {
                   this.state.leadtype !== 'Lead' ?
                     <View style={tabularLayout}>
                       <Text style={lableStyle}>{"Bureau \nStatus"}</Text>
                       <Text style={[dataStyle, { color: this?.state?.listCaseDetails[0]?.bureau_flag_status?.toLowerCase() || 'black' }]}>{this?.state?.listCaseDetails[0]?.bureau_score ? `CRIF ${this?.state?.listCaseDetails[0]?.bureau_score}` : 'NTC'}</Text>
                     </View>
                     : null
-                }
+                } */}
                 {/* <View style={tabularLayout}>
                       <Text style={lableStyle}>{"KYC Verification"}</Text>
                       <View style={{ flexDirection: 'row' }}>
@@ -379,11 +380,24 @@ class LeadList extends Component {
                         });
                       } else {
                         if (
+                          item.caseStatus == 'Bureau Rejected' 
+                        ) {
+                          //LoanSummary KycVerification LoanDetails RepaymentDetails Schemes PersonalDetails Dedupe AdditionalDetails References BusinessDetails
+                          this.props.navigation.navigate('CaseReject', {
+                            leadCode: item.leadCode,
+                            mobileNumber: item.customerMobile,
+                            leadName: item.leadName,
+                            applicantUniqueId: item.applicantUniqueId,
+                            title: this.state.params.title,
+                          })
+                        }
+                        else 
+                        if (
                           item.consentStatus.toLowerCase() !== 'consent pending' &&
                           item.consentStatus.toLowerCase() !== 'consent approved'
                         ) {
                           //LoanSummary KycVerification LoanDetails RepaymentDetails Schemes PersonalDetails Dedupe AdditionalDetails References BusinessDetails
-                          this.props.navigation.navigate('LoanDetails', {
+                          this.props.navigation.navigate('LoanSummary', {
                             leadCode: item.leadCode,
                             mobileNumber: item.customerMobile,
                             leadName: item.leadName,
@@ -392,7 +406,7 @@ class LeadList extends Component {
                           })
                         } else {
                           //PANAndGSTVerification
-                          this.props.navigation.navigate('LoanDetails', {
+                          this.props.navigation.navigate('PANAndGSTVerification', {
                             leadCode: item.leadCode,
                             mobileNumber: item.customerMobile,
                             leadName: item.leadName,
@@ -413,6 +427,12 @@ class LeadList extends Component {
                     </View>
                   </TouchableOpacity>
                 </View>
+
+                {/* <View style={tabularLayout}>
+                      <Text style={lableStyle}>{"Final Status"}</Text>
+                      <Text style={dataStyle}>{item.caseStatus ? item.caseStatus : item.consentStatus}</Text>
+                    </View> */}
+
 
               </View>
 

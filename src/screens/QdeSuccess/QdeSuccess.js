@@ -323,7 +323,11 @@ class QdeSuccess extends Component {
                                     reason: this.state.selectedReason
                                   },
                                   callback: (response) => {
+                                    console.log("mjjjjjjmkkkj", response);
                                     this.setState({ isVisible: !this.state.isVisible })
+                                    response?.data?.arthmateBreStatus ==  "NOGO" ? 
+                                    this.props.navigation.navigate('CaseReject')
+                                    :
                                     this.props.createUpdateCUSTOMER({
                                       data: {
                                         applicant_uniqueid: this.state.applicantUniqueId,
@@ -356,7 +360,11 @@ class QdeSuccess extends Component {
                                     reason: this.state.selectedReason
                                   },
                                   callback: (response) => {
+                                    console.log("mjjjjjjj", response);
                                     this.setState({ isVisible: !this.state.isVisible })
+                                    response?.data?.arthmateBreStatus ==  "NOGO" ? 
+                                    this.props.navigation.navigate('CaseReject')
+                                    :
                                     this.props.navigation.navigate('LoanSummary', {
                                       leadName: name,
                                       applicantUniqueId: this.state.applicantUniqueId,
@@ -514,8 +522,7 @@ class QdeSuccess extends Component {
                   </View>
                 )}
 
-                {mainApplicant && submitToCredits && (
-                  (
+                {mainApplicant && submitToCredits && ((
                 <View style={{ marginBottom: 10 }}>
                   <Button
                     style={buttonContainerButtons}
@@ -528,8 +535,7 @@ class QdeSuccess extends Component {
                     }}
                   />
                 </View>
-                )
-                )}
+                 ))} 
 
               </View>
 

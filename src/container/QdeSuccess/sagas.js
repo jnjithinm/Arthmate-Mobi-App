@@ -25,11 +25,13 @@ export function* submitToCreditSaga(action) {
   try {
     const userData = yield select(userDataSelector());
     const mainResponse = yield call(submitToCredit, action.actions.data, userData.token || "");
+
+    console.log("mjjjjjjygyyuuikjj",mainResponse);
     if (mainResponse && mainResponse.status && mainResponse.status === 200) {
       if (action.actions && action.actions.callback) {
         action.actions.callback(mainResponse);
       }
-      yield call(handleSuccess, mainResponse.data.message);
+      // yield call(handleSuccess, mainResponse.data.message);
     }
   } catch (error) {
     yield call(handleError, error);

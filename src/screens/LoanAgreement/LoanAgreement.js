@@ -84,6 +84,7 @@ class LoanAgreement extends Component {
             filePathInResponse: "",
             disableProceed: false,
             signerInfo: [],
+            signDeskResponse: [],
             ap: "80083113111618459949264",
             getCommonData: "",
             displayEStamp: false,
@@ -111,7 +112,7 @@ class LoanAgreement extends Component {
                 ismainapplicant: true
             },
             callback: (response) => {
-                
+
                 this.setState({
                     filePathInResponse: response?.data?.loanAgreementFilePath?.replace('/var/www/html', uatURL.URL),
                     uploadLoanName: response?.data?.loanAgreementFilePath == undefined ? { docName: null } : { docName: response?.data?.loanAgreementFilePath?.split('\\').pop().split('/').pop() },
@@ -216,14 +217,14 @@ class LoanAgreement extends Component {
                     checkVisible: response?.mainapplicant?.signCheckBoxFreeze,
                     isViewOnly:
                         response?.mainapplicant?.agreementSectionFreeze ? true : response?.modelAccess[0]?.read ? true :
-                        false
-                },()=>{
+                            false
+                }, () => {
                     this.props.getSactionLetter({
                         data: {
                             applicantUniqueId: this.state.applicantUniqueId,
                         },
                         callback: (response) => {
-                        //    console.log("fffffffffff",response);
+                            //    console.log("fffffffffff",response);
                         }
                     })
                 })
@@ -506,19 +507,19 @@ class LoanAgreement extends Component {
 
 
         const source = { uri: `${this.state.esignFilePath}`, cache: true };
-        const signer_info_buttons = 
-        (this.state.signerInfo || []).map((item, index) => (
-            <Button customContainerStyle={{ marginRight: 10 }}
-                onPress={() => { if (!this.state.isViewOnly) { Linking.openURL(item.invitation_link) } }}
-                title={
-                    item.applicantType === "MainApplicant" ? "Main Applicant" :
-                        item.applicantType === "CoApplicant" ? "Co Applicant" :
-                            item.applicantType === "Gurantor" ? "Guarantor" : ""
-                }
-            >
+        const signer_info_buttons =
+            (this.state.signerInfo || []).map((item, index) => (
+                <Button customContainerStyle={{ marginRight: 10 }}
+                    onPress={() => { if (!this.state.isViewOnly) { Linking.openURL(item.invitation_link) } }}
+                    title={
+                        item.applicantType === "MainApplicant" ? "Main Applicant" :
+                            item.applicantType === "CoApplicant" ? "Co Applicant" :
+                                item.applicantType === "Gurantor" ? "Guarantor" : ""
+                    }
+                >
 
-            </Button>
-        ))
+                </Button>
+            ))
         return (
             <WaveBackground>
                 <StatusBar
@@ -598,11 +599,11 @@ class LoanAgreement extends Component {
 
                                                 },
                                                 callback: (response) => {
-                                                    console.log("reeeee",JSON.stringify(response, null, 4));
+                                                    console.log("reeeee", JSON.stringify(response, null, 4));
                                                     // console.log("kkkkk",response.signDeskResponse.signdeskResponse.signer_info[0].invitation_link);
-                                                    this.setState({ modalVisible: false }, () => { 
+                                                    this.setState({ modalVisible: false, signDeskResponse: response?.signDeskResponse?.signdeskResponse?.signer_info }, () => {
                                                         this.getApi()
-                                                        Linking.openURL(response?.signDeskResponse?.signdeskResponse?.signer_info[0]?.invitation_link || '')
+                                                        // Linking.openURL(response?.signDeskResponse?.signdeskResponse?.signer_info[0]?.invitation_link || '')
                                                     })
 
                                                 }
@@ -638,15 +639,32 @@ class LoanAgreement extends Component {
                             <TouchableOpacity
                                 style={[{ width: "50%", height: 45, borderRadius: 30, justifyContent: "center", backgroundColor: colors.COLOR_LIGHT_NAVY_BLUE, }]}
                                 onPress={() => {
-                                    !this.state.checkVisible &&(
-                                    this.setState({
-                                        check1: !this.state.check1,
-                                        modalVisible: true
-                                    }))
+                                    !this.state.checkVisible && (
+                                        this.setState({
+                                            check1: !this.state.check1,
+                                            modalVisible: true
+                                        }))
 
                                 }}>
                                 <Text style={[text, { color: "#ffffff", textAlign: "center" }]}>Sign Sanction Letter</Text>
                             </TouchableOpacity>
+                        </View>
+                        <View style={buttonContainerLink}>
+
+                        {
+                            (this.state.signDeskResponse || []).map((item, index) => (
+                                <Button customContainerStyle={{ marginRight: 10 }}
+                                    onPress={() => { if (!this.state.isViewOnly) { Linking.openURL(item.invitation_link) } }}
+                                    title={
+                                        item.applicantType === "MainApplicant" ? "Main Applicant" :
+                                            item.applicantType === "CoApplicant" ? "Co Applicant" :
+                                                item.applicantType === "Gurantor" ? "Guarantor" : ""
+                                    }
+                                >
+
+                                </Button>
+                            ))
+                        }
                         </View>
 
                         < Text style={agreementGreet} > {LOAN_AGREEMENT_CONST.AGREEMENT_GREET}</Text >
