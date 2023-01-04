@@ -28,14 +28,18 @@ class EmiCalculator extends Component {
             tenureType: '',
             emi: '',
             paybleIntrest: '',
-            totalPaid: ''
-
+            totalPaid: '',
+            status: this.props.navigation.state.params.status,
+            leadName: this.props.navigation.state.params.leadName,
+            applicantUniqueId: this.props.navigation.state.params.applicantUniqueId,
+            leadCode: this.props.navigation.state.params.leadCode,
         };
     }
 
-   
 
     render() {
+        console.log("sssssss", this.props.navigation.state.params.status);
+
         return (
             <WaveBackground>
                 <StatusBar
@@ -45,7 +49,7 @@ class EmiCalculator extends Component {
                     hidden={false}
                 />
                 <Header
-                    label={'Case Rejected'}
+                    label={this.state.status == 'Go' ? 'Case Approved' : 'Case Rejected'}
                     showLeftIcon={false}
                     onPress={() => {
                         Alert.alert("Logout!", `Are you sure you want to logout?`, [
@@ -64,20 +68,39 @@ class EmiCalculator extends Component {
                         ])
                     }}
                 />
-                <ScrollView style={{  }}>
+                <ScrollView style={{}}>
 
                     <View style={{ paddingHorizontal: 20 }}>
                         <View>
                             <View style={styles.textField}>
                                 <View style={styles.container}>
-                                    <Text style={{ fontSize: FONT_SIZE.l ,fontFamily: APP_FONTS.NunitoRegular}}>{`We regret to inform you that your loan application cannot be approved at this time due to failure in meeting credit decisioning requirements. We hope that you apply again in 12 months!`}</Text>
+                                    {this.state.status == 'Go' ?
+                                        <Text style={{ fontSize: FONT_SIZE.l, fontFamily: APP_FONTS.NunitoRegular }}>{'Your loan offer has been approved please proceed to DDE and execution of agreement.'}</Text>
+                                        :
+                                        <Text style={{ fontSize: FONT_SIZE.l, fontFamily: APP_FONTS.NunitoRegular }}>{`We regret to inform you that your loan application cannot be approved at this time due to failure in meeting credit decisioning requirements. We hope that you apply again in 12 months!`}</Text>
+                                    }
                                 </View>
                             </View>
                         </View>
 
-                     
+
                         <View style={{ flexDirection: 'row', marginTop: 60, justifyContent: 'center', alignItems: 'center' }}>
-                          
+
+
+                            {this.state.status == "Go" && <TouchableOpacity
+                                style={[styles.button, { backgroundColor: colors.COLOR_LIGHT_NAVY_BLUE, marginLeft: 5 }]}
+                                onPress={() => {
+                                    this.props.navigation.navigate('LoanSummary', {
+                                        leadName: this.state.leadName,
+                                        applicantUniqueId: this.state.applicantUniqueId,
+                                        leadCode: this.state.leadCode,
+                                    })
+                                }}
+
+                            >
+                                <Text style={{ alignSelf: 'center', fontSize: FONT_SIZE.l, color: 'white' }}>Loan Summary</Text>
+                            </TouchableOpacity>}
+
                             <TouchableOpacity
                                 style={[styles.button, { backgroundColor: colors.COLOR_LIGHT_NAVY_BLUE, marginLeft: 5 }]}
                                 onPress={() => { this.props.navigation.navigate('LeadList', { productId: 1, title: 'New Two Wheeler' }); }}
@@ -85,8 +108,10 @@ class EmiCalculator extends Component {
                             >
                                 <Text style={{ alignSelf: 'center', fontSize: FONT_SIZE.l, color: 'white' }}>Close Case</Text>
                             </TouchableOpacity>
+
+
                         </View>
-                      
+
                     </View>
                 </ScrollView>
             </WaveBackground>
@@ -105,7 +130,7 @@ const styles = StyleSheet.create({
         // backgroundColor: 'green'
     },
     container: {
-        width: '90%', justifyContent: 'center', alignItems: 'flex-start', 
+        width: '90%', justifyContent: 'center', alignItems: 'flex-start',
         // backgroundColor: 'red'
     },
     subContainer: {

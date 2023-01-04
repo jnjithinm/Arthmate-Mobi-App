@@ -1,5 +1,5 @@
 export const LOGIN_CONST = {
-  HEADER: 'Welcome! \n(UAT)',
+  HEADER: 'Welcome UAT!',
   EMAIL_ADDRESS: '@ Email Address',
   EMAIL_PLACEHOLDER: 'Enter Email Address',
   PASSWORD: '* Password',

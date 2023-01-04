@@ -135,12 +135,8 @@ function qde(props) {
         props.navigate('PersonalDetails', navigationPayload);
         return;
       }
-      if (ismainapplicant && scheme && saveScheme) {
-        props.navigate('QdeSuccess', {
-          applicantUniqueId,
-          redirection: 'qde',
-          offerType: 'tentative',
-        });
+      if (ismainapplicant && reference ) {
+        props.navigate('References', navigationPayload);
         return;
       }
     } catch (err) {
@@ -201,12 +197,8 @@ function qde(props) {
         props.navigate('businessDetails', navigationPayload);
         return;
       }
-      if (ismainapplicant && scheme && saveScheme) {
-        props.navigate('QdeSuccess', {
-          applicantUniqueId,
-          redirection: 'qde',
-          offerType: 'tentative',
-        });
+      if (ismainapplicant && reference ) {
+        props.navigate('References', navigationPayload);
         return;
       }
     } catch (err) {

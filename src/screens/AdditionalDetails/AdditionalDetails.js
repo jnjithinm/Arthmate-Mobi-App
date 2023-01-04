@@ -9177,7 +9177,7 @@ class AdditionalDetails extends Component {
             </View>
             <View style={headerTextContrainer}>
               <Text style={additionalDetailsLabel}>
-                {"ADDITIONAL_DETAILS_CONST.ADDITIONAL_DETAIL_LABEL"}
+                {ADDITIONAL_DETAILS_CONST.ADDITIONAL_DETAIL_LABEL}
               </Text>
             </View>
           </View>

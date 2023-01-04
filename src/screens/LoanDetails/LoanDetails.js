@@ -439,7 +439,7 @@ class LoanDetails extends Component {
   }
 
   isProcessingFees(text) {
-
+    console.log("text is ",text)
     let valid = false;
     if (this.state.pfAmountType.value === 'Number') {
       const pincodeRegex = /^\d+$/;
@@ -453,14 +453,20 @@ class LoanDetails extends Component {
         },
       });
     }
-
-    if (this.state.pfAmountType.value === 'Percent') {
+     if  (this.state.pfAmountType.value === 'Percent') {
+      console.log("text is ",text)
       const pincodeRegex = /^(100|([0-9][0-9]?(\.[0-9]+)?))$/;
       if (text != '' && text != null && text >= 1 && text <= 100 && pincodeRegex.test(text)) {
         valid = true;
+        let aa=Number(this.state.valueaR1)*Number(text)/100;
+        let bb=Number(aa/1.18).toFixed(2);
+
+
+        console.log("is it coming ....",bb,this.state.valueaR1)
         this.setState({
           processingFees: {
-            ...this.state.processingFees,
+            // ...this.state.processingFees,
+            value:bb,
             isValid: valid,
           },
         });
@@ -2019,7 +2025,7 @@ class LoanDetails extends Component {
           step={100}
         />
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: -10 }}>
-          <Text style={textEMI}>20K</Text>
+          <Text style={textEMI}>25K</Text>
           <Text style={textEMIRIGHT}>{this?.state?.maxAmount?.toString()}</Text>
         </View>
 
@@ -2249,7 +2255,8 @@ class LoanDetails extends Component {
                         ltvGridRule: response.data.ltvGridRule,
                         saveEnable: false
                       }, () => {
-                        this.emiamount()
+                        this.emiamount();
+                        // this.isProcessingFees(this.state.processingFees.value);
                       })
 
                     },
@@ -2740,16 +2747,16 @@ class LoanDetails extends Component {
                     this.state.processingFees.value === null)
                     ? LOANDETAILS_CONST.MANDATORY_PROCESSINGFEES :
                     this.state.pfAmountType.value === 'Number' && (parseInt(this.state.processingFees.value) < parseInt(this.state.pfAmount1) || parseInt(this.state.processingFees.value) == parseInt(this.state.pfAmount1)) ?
-                      `Amount cannot be lesser than ${this.state.pfAmount1} Rs` :
+                      `Amount cannot be lesser than ${this.state.pfAmount1} Rs` : this.state.pfAmountType.value === 'Percent'? null:
                       LOANDETAILS_CONST.VALID_PROCESSINGFEES}</Text>}
             </View>
-            {
+            {/* {
               this.state.pfAmountType.value != 'Number' ?
                 <View style={{ width: '20%', marginTop: 45 }}>
                   <Text>%</Text>
                 </View>
                 : null
-            }
+            } */}
           </View>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -3602,9 +3609,10 @@ class LoanDetails extends Component {
                           this.setState({ isDataSaved: true, });
                         },
                       })
-                      : null
+                      : nullSlider
                   }
                   else {
+                    void 0;
                   }
                 }}
               />

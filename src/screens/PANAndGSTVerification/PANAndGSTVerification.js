@@ -986,7 +986,7 @@ class PANAndGSTVerification extends Component {
           )}
         </View>
         
-        {this.state.selectedOccupation == 'Salaried' &&
+        {
           <View style={{ marginTop: 26 }}>
             <Text style={[textStyle, { marginBottom: -4, marginLeft: 5 }]}>
               {PAN_GST_CONST.PLACEHOLDER_GENDER}
@@ -1819,6 +1819,7 @@ class PANAndGSTVerification extends Component {
                           id: this.state.idToEdit,
                           entity: this.state.selectedEntityDrop.value,
                           gst: this.state.selectedGSTDrop.value,
+                          gender: this.state.selectedGender.value
                         };
                         this.props.savePANAPI({
                           dataToAPI,

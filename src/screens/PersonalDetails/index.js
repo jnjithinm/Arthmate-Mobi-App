@@ -180,7 +180,7 @@ console.log("mjjjjbbbbbbbb");
         // } else {
           props.navigation.navigate('QdeSuccess', {
             leadName: leadName,
-            cif: response.cif,
+            // cif: response.cif,
             leadCode: leadCode,
             applicantUniqueId: applicantUniqueId,
             iscoapplicant: iscoapplicant,
@@ -675,7 +675,7 @@ console.log("mjjjjbbbbbbbb");
       />
       <View style={{ alignContent: 'center' }}>
         <View style={{}}>
-          <DottedProgressBar totalSteps={iscoapplicant || isguarantor ? [1, 2, 3,4] : [1, 2, 3, 4, 5, 6]} currentIndex={3} />
+          <DottedProgressBar totalSteps={iscoapplicant || isguarantor ? [1, 2, 3] : [1, 2, 3, 4, 5, 6]} currentIndex={3} />
         </View>
       </View>
       <View style={PersonalDetailsStyles.mainContainer}>
