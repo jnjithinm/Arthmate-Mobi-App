@@ -400,7 +400,7 @@ class QdeSuccess extends Component {
 
             </Modal>
             <View>
-              <Text style={QdeSuccessLabel}>{`Congrats ${name}`}</Text>
+              <Text style={QdeSuccessLabel}>{`Your tentative loan offer has been generated. Final offer subject to credit decisioning.${'\n'}Please click submit to credit to get final decision on whether the loan has been approved`}</Text>
               {/* <Text style={QdeSuccessGreet}>
                   {this.state.redirection === 'qde'
                     ? QDESUCCESS_CONST.GREETDESCRIPTION
