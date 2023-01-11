@@ -1,23 +1,34 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { Alert, ScrollView, StyleSheet, StatusBar, Text, View, Modal, Image, TouchableOpacity, TextInput } from 'react-native';
-import { Tooltip } from 'react-native-elements';
-import { compose, withProps } from 'recompose';
-import { Button } from '../../components/Button/Button';
-import { Header } from '../../components/Header/Header';
-import { WaveBackground } from '../../components/WaveBackground/WaveBackground';
+import React, {Component} from 'react';
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  StatusBar,
+  Text,
+  View,
+  Modal,
+  Image,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import {Tooltip} from 'react-native-elements';
+import {compose, withProps} from 'recompose';
+import {Button} from '../../components/Button/Button';
+import {Header} from '../../components/Header/Header';
+import {WaveBackground} from '../../components/WaveBackground/WaveBackground';
 import * as colors from '../../constants/colors';
-import { QDESUCCESS_CONST } from '../../constants/screenConst';
+import {QDESUCCESS_CONST} from '../../constants/screenConst';
 import container from '../../container/QdeSuccess/index';
-import { QdeSuccessStyles } from './QdeSuccessStyles';
-import { HUMAN_HAPPY } from "../../constants/imgConsts";
-import { ImageBackground } from 'react-native';
-import { COLOR_LIGHT_NAVY_BLUE } from '../../constants/colors'
-import { handleWarning, handleError } from '../../../utils';
-import { FONT_SIZE, APP_FONTS } from '../../constants/styleConfig'
+import {QdeSuccessStyles} from './QdeSuccessStyles';
+import {HUMAN_HAPPY} from '../../constants/imgConsts';
+import {ImageBackground} from 'react-native';
+import {COLOR_LIGHT_NAVY_BLUE} from '../../constants/colors';
+import {handleWarning, handleError} from '../../../utils';
+import {FONT_SIZE, APP_FONTS} from '../../constants/styleConfig';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { DOWN_ARROW, UP_ARROW } from '../../constants/imgConsts';
-import { Dropdown } from 'react-native-element-dropdown';
+import {DOWN_ARROW, UP_ARROW} from '../../constants/imgConsts';
+import {Dropdown} from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 class QdeSuccess extends Component {
@@ -25,7 +36,7 @@ class QdeSuccess extends Component {
     super(props);
     this.state = {
       responseData: {},
-      employeeId: (this.props.userDataSelector?.userData?.data?.employeeId) || "",
+      employeeId: this.props.userDataSelector?.userData?.data?.employeeId || '',
       isVisible: false,
       addressNominee: {
         value: null,
@@ -41,7 +52,8 @@ class QdeSuccess extends Component {
           this.props.newLeadDataSelector.newLead &&
           this.props.newLeadDataSelector.newLead.applicantUniqueId) ||
         '',
-      coapplicantUniqueId: this.props?.navigation?.state?.params?.coapplicantUniqueId || '',
+      coapplicantUniqueId:
+        this.props?.navigation?.state?.params?.coapplicantUniqueId || '',
       offerType: this.props.navigation.state.params.offerType,
       redirection: this.props.navigation.state.params.redirection,
       ddeflag: this.props.navigation.state.params.ddeflag,
@@ -51,34 +63,37 @@ class QdeSuccess extends Component {
       isFocus: false,
       reasonVisible: false,
       validReason: false,
-      creditVisible: false
+      creditVisible: false,
     };
   }
 
   isAddressNominee(text) {
     let valid = false;
     const addressRegex = /.*/;
-    if (text != "" && text != null && addressRegex.test(text)) {
+    if (text != '' && text != null && addressRegex.test(text)) {
       valid = true;
     }
     this.setState({
       addressNominee: {
         ...this.state.addressNominee,
         isValid: valid,
-      }
+      },
     });
   }
 
   qdeSuccessApi() {
-    const { coapplicantUniqueId } = this.props.navigation.state.params;
-    const { iscoapplicant } = this.props.navigation.state.params;
-    const { isguarantor } = this.props.navigation.state.params;
+    const {coapplicantUniqueId} = this.props.navigation.state.params;
+    const {iscoapplicant} = this.props.navigation.state.params;
+    const {isguarantor} = this.props.navigation.state.params;
 
-    var appliId = iscoapplicant || isguarantor ? coapplicantUniqueId : this.state.applicantUniqueId
+    var appliId =
+      iscoapplicant || isguarantor
+        ? coapplicantUniqueId
+        : this.state.applicantUniqueId;
     this.props.qdeSuccessAPI({
       data: {
         applicant_uniqueid: appliId,
-        ddeflag: this.state.redirection == 'qde' ? false : true
+        ddeflag: this.state.redirection == 'qde' ? false : true,
       },
       callback: (response) => {
         this.setState({
@@ -89,13 +104,11 @@ class QdeSuccess extends Component {
 
     this.props.getReasonMasterList({
       callback: (response) => {
-        var temp = []
+        var temp = [];
         Object.keys(response.data).map((items, index) => {
-          response.data[items]["value"] = response.data[items].reason,
-            response.data[items]["label"] = response.data[items].reason
-
-
-        })
+          (response.data[items]['value'] = response.data[items].reason),
+            (response.data[items]['label'] = response.data[items].reason);
+        });
         this.setState({
           reasonData: response.data,
         });
@@ -107,58 +120,71 @@ class QdeSuccess extends Component {
     const dataToAPI = {
       applicant_uniqueid: this.state.applicantUniqueId,
       lead_code: this.state.leadCode,
-      roleId: this.props?.userDataSelector?.userData?.data?.roleId
+      roleId: this.props?.userDataSelector?.userData?.data?.roleId,
     };
     this.props.getLoanSummary({
       dataToAPI,
       callback: (response) => {
-        var creditVisible = false
+        var creditVisible = false;
 
-        response?.coapplicant?.length != 0 ?
-          Object.keys(response?.coapplicant).map((item, index) => {
-            if (response?.coapplicant[item]?.additionalDetails &&
-              response?.coapplicant[item]?.panAndGst &&
-              (response?.coapplicant[item]?.personalDetailsFlag ||
-                response?.coapplicant[item]?.businessDetails)
-            ) {
-              console.log("");
-            }
-            else {
-              creditVisible = true
-            }
-          }) : null
-        response?.gurantor?.length != 0 ?
-          Object.keys(response?.gurantor).map((item, index) => {
-            if (response?.gurantor[item]?.additionalDetails &&
-              response?.gurantor[item]?.panAndGst &&
-              (response?.gurantor[item]?.personalDetailsFlag ||
-                response?.gurantor[item]?.businessDetails)
-            ) {
-              console.log("");
-            }
-            else {
-              creditVisible = true
-            }
-          }) : null
+        response?.coapplicant?.length != 0
+          ? Object.keys(response?.coapplicant).map((item, index) => {
+              if (
+                response?.coapplicant[item]?.additionalDetails &&
+                response?.coapplicant[item]?.panAndGst &&
+                (response?.coapplicant[item]?.personalDetailsFlag ||
+                  response?.coapplicant[item]?.businessDetails)
+              ) {
+                console.log('');
+              } else {
+                creditVisible = true;
+              }
+            })
+          : null;
 
+        response?.gurantor?.length != 0
+          ? Object.keys(response?.gurantor).map((item, index) => {
+              if (
+                response?.gurantor[item]?.additionalDetails &&
+                response?.gurantor[item]?.panAndGst &&
+                (response?.gurantor[item]?.personalDetailsFlag ||
+                  response?.gurantor[item]?.businessDetails)
+              ) {
+                console.log('');
+              } else {
+                creditVisible = true;
+              }
+            })
+          : null;
+          response?.mainapplicant?.arthmateBreStatus == 'GO' &&
+          response?.mainapplicant?.arthmateLoanStatus == 'NOGO'?
+          handleError('Contact the administrator !'):
+          null;
         this.setState({
           creditVisible: creditVisible,
           reasonVisible: response?.mainapplicant?.reasonDropDownFlag,
           isViewOnly:
-            response?.mainapplicant?.loanAgreementFlag ? true : response?.modelAccess[0]?.read ? true : false
-        })
-      }
-    })
+            response?.mainapplicant?.arthmateBreStatus == 'GO' &&
+            response?.mainapplicant?.arthmateLoanStatus == 'NOGO'
+              ? true
+              : response?.mainapplicant?.loanAgreementFlag
+              ? true
+              : response?.modelAccess[0]?.read
+              ? true
+              : false,
+        });
+      },
+    });
   }
 
   componentDidMount() {
     //const { applicantUniqueId } = this.props.navigation.state.params;
-    const { redirection } = this.props.navigation.state.params;
-    const { ismainapplicant } = this.props.navigation.state.params;
+    const {redirection} = this.props.navigation.state.params;
+    const {ismainapplicant} = this.props.navigation.state.params;
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
       this.qdeSuccessApi();
       this.loanSummary();
-    })
+    });
 
     this.qdeSuccessApi();
     this.loanSummary();
@@ -190,7 +216,7 @@ class QdeSuccess extends Component {
       separatorStyle,
       textInputStyleAddress,
       errorLabel,
-      textStyle
+      textStyle,
     } = QdeSuccessStyles;
     const {
       id,
@@ -204,14 +230,14 @@ class QdeSuccess extends Component {
       rateOfInterest,
     } = this.state.responseData;
 
-
     const mainApplicant = isMainApplicant;
     const viewAgreement = this.state.offerType === 'final';
     const okButton = !isMainApplicant && this.state.redirection === 'dde';
     const continueLater = !isMainApplicant && this.state.redirection === 'qde';
     const loanSummary = isMainApplicant && this.state.offerType === 'tentative';
-    const dde = this.state.redirection === 'qde' && this.state.offerType === 'tentative';
-    const submitToCredits = this.props.navigation.state.params.creditButtonFlag
+    const dde =
+      this.state.redirection === 'qde' && this.state.offerType === 'tentative';
+    const submitToCredits = this.props.navigation.state.params.creditButtonFlag;
     // isMainApplicant && this.state.offerType === 'tentative';
     return (
       <WaveBackground>
@@ -222,25 +248,32 @@ class QdeSuccess extends Component {
           hidden={false}
         />
 
-        <Header showLeftIcon={false}
-          label={this.state.ddeflag == true ? 'Detailed Data Entry' : 'Quick Data Entry'}
-          onPress={() => {
+        <Header
+          showLeftIcon={false}
+          label={
+            this.state.ddeflag == true
+              ? 'Detailed Data Entry'
+              : 'Quick Data Entry'
           }
-          } />
+          onPress={() => {}}
+        />
         {/* <ImageBackground source={HUMAN_HAPPY} style={{ width: '100%', alignSelf: 'center', flex: 1 }}> */}
-        <ScrollView keyboardShouldPersistTaps='handled'>
+        <ScrollView keyboardShouldPersistTaps="handled">
           <View style={mainContainer}>
             <Modal
-              animationType={"fade"}
+              animationType={'fade'}
               transparent={true}
               visible={this.state.isVisible}
-              onRequestClose={() => {
-              }}>
-
+              onRequestClose={() => {}}>
               <View style={modalView}>
-                <Text style={text}>Loan case moved to Credit Module with BRE decision as Approved. Please check the Final Loan Offer after Credit Decisioning.</Text>
+                <Text style={text}>
+                  Loan case moved to Credit Module with BRE decision as
+                  Approved. Please check the Final Loan Offer after Credit
+                  Decisioning.
+                </Text>
                 {this.state.reasonVisible && (
-                  <Text style={[text, { marginTop: 10, }]}>Reason Type*</Text>)}
+                  <Text style={[text, {marginTop: 10}]}>Reason Type*</Text>
+                )}
 
                 {this.state.reasonVisible && (
                   <Dropdown
@@ -257,18 +290,22 @@ class QdeSuccess extends Component {
                     placeholder={!this.state.isFocus ? 'Select item' : '...'}
                     searchPlaceholder="Search..."
                     value={this.state.selectedReason}
-                    onFocus={() => this.setState({ isFocus: true })}
-                    onBlur={() => this.setState({ isFocus: false })}
-                    onChange={item => {
-                      this.setState({ selectedReason: item.value, isFocus: false, validReason: false })
-
+                    onFocus={() => this.setState({isFocus: true})}
+                    onBlur={() => this.setState({isFocus: false})}
+                    onChange={(item) => {
+                      this.setState({
+                        selectedReason: item.value,
+                        isFocus: false,
+                        validReason: false,
+                      });
                     }}
-                  />)}
+                  />
+                )}
                 {this.state.validReason && (
                   <Text style={errorLabel}>{'Reason type is mandatory'}</Text>
                 )}
 
-                <View style={{ marginTop: 20, }}>
+                <View style={{marginTop: 20}}>
                   {/* {this.state.addressNominee.value !== null && */}
                   <Text style={text}>Comment*</Text>
                   <TextInput
@@ -278,147 +315,215 @@ class QdeSuccess extends Component {
                     maxLength={255}
                     underlineColorAndroid={COLOR_LIGHT_NAVY_BLUE}
                     onChangeText={(text) => {
-                      this.setState({
-                        addressNominee: {
-                          ...this.state.addressNominee,
-                          value: text,
-                        }
-                      }, () => { this.isAddressNominee(this.state.addressNominee.value) });
+                      this.setState(
+                        {
+                          addressNominee: {
+                            ...this.state.addressNominee,
+                            value: text,
+                          },
+                        },
+                        () => {
+                          this.isAddressNominee(
+                            this.state.addressNominee.value,
+                          );
+                        },
+                      );
                     }}
                   />
                 </View>
                 {!this.state.addressNominee.isValid && (
-                  <Text style={errorLabel}>{QDESUCCESS_CONST.MANDATORY_ADDRESS}</Text>
+                  <Text style={errorLabel}>
+                    {QDESUCCESS_CONST.MANDATORY_ADDRESS}
+                  </Text>
                 )}
 
-
-
-                <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center" }}>
-
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                  }}>
                   <TouchableOpacity
                     style={touchButton}
                     onPress={() => {
-                      this.setState({ isVisible: !this.state.isVisible })
+                      this.setState({isVisible: !this.state.isVisible});
                     }}>
-                    <Text style={[text, { color: "#ffffff", textAlign: "center" }]}>Cancel</Text>
+                    <Text
+                      style={[text, {color: '#ffffff', textAlign: 'center'}]}>
+                      Cancel
+                    </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     style={touchButton}
                     onPress={() => {
-                      this.setState({ count: this.state.count + 1 }, () => {
+                      this.setState({count: this.state.count + 1}, () => {
                         if (this.state.count == 1) {
                           if (submitToCredits) {
-                            this.isAddressNominee(this.state.addressNominee.value)
-                            this.state.reasonVisible && this.state.selectedReason == null ? this.setState({ validReason: true }) : null
-                            if (this.state.reasonVisible == false &&
+                            this.isAddressNominee(
+                              this.state.addressNominee.value,
+                            );
+                            this.state.reasonVisible &&
+                            this.state.selectedReason == null
+                              ? this.setState({validReason: true})
+                              : null;
+                            if (
+                              this.state.reasonVisible == false &&
                               this.state.addressNominee.value != null &&
-                              this.state.addressNominee.value != ""
+                              this.state.addressNominee.value != ''
                             ) {
                               this.props.submitToCredit({
                                 data: {
-                                  applicant_uniqueid: this.state.applicantUniqueId,
+                                  applicant_uniqueid: this.state
+                                    .applicantUniqueId,
                                   employeeId: this.state.employeeId,
                                   comment: this.state.addressNominee.value,
-                                  reason: this.state.selectedReason
+                                  reason: this.state.selectedReason,
                                 },
-                                callback: (response) => {
-                                  console.log("mjjjjjjmkkkj", response?.data);
-                                  this.setState({ isVisible: !this.state.isVisible })
+                                callback: () => {
+                                  console.log('mjjjjjjmkkkj', response?.data);
+                                  this.setState({
+                                    isVisible: !this.state.isVisible,
+                                  });
 
-                                  response?.data?.arthmateBreStatus == "NOGO" ?
-                                    this.props.navigation.navigate('CaseReject')
-                                    :
-                                    this.props.createUpdateCUSTOMER({
-                                      data: {
-                                        applicant_uniqueid: this.state.applicantUniqueId,
-                                        ismainapplicant: mainApplicant,
-                                        isguarantor: false,
-                                        type: 'BRE'
-                                      },
-                                      callback: (response1) => {
-
-                                        this.setState({ isVisible: !this.state.isVisible })
-                                        response?.data?.arthmateBreStatus == "GO" ?
-                                          this.props.navigation.navigate('CaseReject', { status: 'Go', leadName: name, applicantUniqueId: this.state.applicantUniqueId, leadCode: leadCode, })
-                                          :
-                                          this.props.navigation.navigate('LoanSummary', {
-                                            leadName: name,
-                                            applicantUniqueId: this.state.applicantUniqueId,
-                                            leadCode: leadCode,
+                                  response?.data?.arthmateBreStatus == 'NOGO'
+                                    ? this.props.navigation.navigate(
+                                        'CaseReject',
+                                      )
+                                    : this.props.createUpdateCUSTOMER({
+                                        data: {
+                                          applicant_uniqueid: this.state
+                                            .applicantUniqueId,
+                                          ismainapplicant: mainApplicant,
+                                          isguarantor: false,
+                                          type: 'BRE',
+                                        },
+                                        callback: (response) => {
+                                          this.setState({
+                                            isVisible: !this.state.isVisible,
                                           });
-                                      }
-                                    })
+                                          response?.data?.arthmateBreStatus ==
+                                          'GO'
+                                            ? response?.data
+                                                ?.arthmateLoanStatus == 'GO'
+                                              ? this.props.navigation.navigate(
+                                                  'CaseReject',
+                                                  {
+                                                    status: 'Go',
+                                                    leadName: name,
+                                                    applicantUniqueId: this
+                                                      .state.applicantUniqueId,
+                                                    leadCode: leadCode,
+                                                  },
+                                                )
+                                              : this.props.navigation.navigate(
+                                                  'CaseReject',
+                                                )
+                                            : this.props.navigation.navigate(
+                                                'LoanSummary',
+                                                {
+                                                  leadName: name,
+                                                  applicantUniqueId: this.state
+                                                    .applicantUniqueId,
+                                                  leadCode: leadCode,
+                                                },
+                                              );
+                                        },
+                                      });
                                 },
                               });
-                            }
-                            else if (this.state.reasonVisible &&
+                            } else if (
+                              this.state.reasonVisible &&
                               this.state.selectedReason !== null &&
                               this.state.addressNominee.value != null &&
-                              this.state.addressNominee.value != ""
+                              this.state.addressNominee.value != ''
                             ) {
                               this.props.submitToCredit({
                                 data: {
-                                  applicant_uniqueid: this.state.applicantUniqueId,
+                                  applicant_uniqueid: this.state
+                                    .applicantUniqueId,
                                   employeeId: this.state.employeeId,
                                   comment: this.state.addressNominee.value,
-                                  reason: this.state.selectedReason
+                                  reason: this.state.selectedReason,
                                 },
                                 callback: (response) => {
-                                  console.log("mjjjjjjj", response);
-                                  this.setState({ isVisible: !this.state.isVisible })
-                                  response?.data?.arthmateBreStatus == "GO" ?
-                                    this.props.navigation.navigate('CaseReject', { status: 'Go', leadName: name, applicantUniqueId: this.state.applicantUniqueId, leadCode: leadCode, })
-                                    :
-                                    response?.data?.arthmateBreStatus == "NOGO" ?
-                                      this.props.navigation.navigate('CaseReject')
-                                      :
-                                      this.props.navigation.navigate('LoanSummary', {
-                                        leadName: name,
-                                        applicantUniqueId: this.state.applicantUniqueId,
-                                        leadCode: leadCode,
-                                      });
+                                  console.log('mjjjjjjj', response);
+                                  this.setState({
+                                    isVisible: !this.state.isVisible,
+                                  });
+                                  response?.data?.arthmateBreStatus == 'GO'
+                                    ? this.props.navigation.navigate(
+                                        'CaseReject',
+                                        {
+                                          status: 'Go',
+                                          leadName: name,
+                                          applicantUniqueId: this.state
+                                            .applicantUniqueId,
+                                          leadCode: leadCode,
+                                        },
+                                      )
+                                    : response?.data?.arthmateBreStatus ==
+                                      'NOGO'
+                                    ? this.props.navigation.navigate(
+                                        'CaseReject',
+                                      )
+                                    : this.props.navigation.navigate(
+                                        'LoanSummary',
+                                        {
+                                          leadName: name,
+                                          applicantUniqueId: this.state
+                                            .applicantUniqueId,
+                                          leadCode: leadCode,
+                                        },
+                                      );
                                 },
                               });
                             }
                           } else {
-                            handleWarning("User access denied")
+                            handleWarning('User access denied');
                           }
+                        } else {
+                          console.log('mjjjj');
+                          this.setState({isVisible: !this.state.isVisible});
                         }
-                        else {
-                          console.log("mjjjj");
-                          this.setState({ isVisible: !this.state.isVisible })
-
-                        }
-
-                      })
+                      });
                     }}>
-                    <Text style={[text, { color: "#ffffff", textAlign: "center" }]}>Ok</Text>
+                    <Text
+                      style={[text, {color: '#ffffff', textAlign: 'center'}]}>
+                      Ok
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
-
             </Modal>
             <View>
-              <Text style={QdeSuccessLabel}>{`Your tentative loan offer has been generated. Final offer subject to credit decisioning.${'\n'}Please click submit to credit to get final decision on whether the loan has been approved`}</Text>
+              <Text
+                style={
+                  QdeSuccessLabel
+                }>{`Your tentative loan offer has been generated. Final offer subject to credit decisioning.`}</Text>
               {/* <Text style={QdeSuccessGreet}>
                   {this.state.redirection === 'qde'
                     ? QDESUCCESS_CONST.GREETDESCRIPTION
                     : QDESUCCESS_CONST.GREETDESCRIPTIONDDE}
                 </Text> */}
-              {!isMainApplicant && this.state.redirection === 'qde' || !isMainApplicant && this.state.redirection === 'dde' ?
-                <View style={{ height: 50 }} />
-                :
+              {(!isMainApplicant && this.state.redirection === 'qde') ||
+              (!isMainApplicant && this.state.redirection === 'dde') ? (
+                <View style={{height: 50}} />
+              ) : (
                 <Text style={QdeSuccessGreet}>
-                  {QDESUCCESS_CONST.GREET.replace('loanType', this.state.offerType)}
-                </Text>}
-              <View style={{ flexDirection: 'row' }}>
-                <View style={{ flexDirection: 'column' }}>
+                  {QDESUCCESS_CONST.GREET.replace(
+                    'loanType',
+                    this.state.offerType,
+                  )}
+                </Text>
+              )}
+              <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'column'}}>
                   <Text style={LightText}>{QDESUCCESS_CONST.CUSTOMERID}</Text>
                   <Text style={DarkText}>{customerId}</Text>
                 </View>
 
-                <View style={{ flexDirection: 'column', flex: 1 }}>
+                <View style={{flexDirection: 'column', flex: 1}}>
                   <Text style={LightText}>
                     {QDESUCCESS_CONST.APPLICATIONID}
                   </Text>
@@ -426,13 +531,13 @@ class QdeSuccess extends Component {
                 </View>
               </View>
               {isMainApplicant && (
-                <View style={{ flexDirection: 'row' }}>
-                  <View style={{ flexDirection: 'column' }}>
+                <View style={{flexDirection: 'row'}}>
+                  <View style={{flexDirection: 'column'}}>
                     <Text style={LightText}>{QDESUCCESS_CONST.LOANAMOUNT}</Text>
                     <Text style={DarkText}>{`₹ ${loanAmount}`}</Text>
                   </View>
 
-                  <View style={{ flexDirection: 'column', flex: 1 }}>
+                  <View style={{flexDirection: 'column', flex: 1}}>
                     <Text style={LightText}>
                       {QDESUCCESS_CONST.DURATIONOFLOAN}
                     </Text>
@@ -441,7 +546,7 @@ class QdeSuccess extends Component {
                 </View>
               )}
               {isMainApplicant && (
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{flexDirection: 'row'}}>
                   {/* <View style={{ flexDirection: 'column' }}>
                       <Text style={LightText}>
                         {QDESUCCESS_CONST.RATEOFINTEREST}
@@ -449,15 +554,18 @@ class QdeSuccess extends Component {
                       <Text style={DarkText}>{`${rateOfInterest} %`}</Text>
                     </View> */}
 
-                  <View style={{ flexDirection: 'column', flex: 2 }}>
+                  <View style={{flexDirection: 'column', flex: 2}}>
                     <Text style={LightText}>{QDESUCCESS_CONST.EMIAMOUNT}</Text>
-                    <Text style={DarkText}>{`₹ ${emiAmount !== undefined ? Math.round(emiAmount) : Math.round(emiAmount)}`}</Text>
-
+                    <Text style={DarkText}>{`₹ ${
+                      emiAmount !== undefined
+                        ? Math.round(emiAmount)
+                        : Math.round(emiAmount)
+                    }`}</Text>
                   </View>
                 </View>
               )}
             </View>
-            <View style={[separatorStyle1, { marginBottom: 20 }]} />
+            <View style={[separatorStyle1, {marginBottom: 20}]} />
             <View style={buttonContainer}>
               {okButton && (
                 <Button
@@ -470,7 +578,7 @@ class QdeSuccess extends Component {
                       leadCode: leadCode,
                     });
                   }}
-                //OK BUTTON
+                  //OK BUTTON
                 />
               )}
               {viewAgreement && (
@@ -482,7 +590,7 @@ class QdeSuccess extends Component {
               )}
 
               {continueLater && (
-                <View style={{ marginVertical: 10 }}>
+                <View style={{marginVertical: 10}}>
                   <Button
                     style={buttonContainerButtons}
                     title={QDESUCCESS_CONST.BUTTON_CONTINUE_LATER}
@@ -499,7 +607,7 @@ class QdeSuccess extends Component {
               )}
 
               {loanSummary && (
-                <View style={{ marginBottom: 10 }}>
+                <View style={{marginBottom: 10}}>
                   <Button
                     style={buttonContainerButtons}
                     title={QDESUCCESS_CONST.BUTTON_TITLE_ADD}
@@ -515,14 +623,16 @@ class QdeSuccess extends Component {
               )}
 
               {dde && (
-                <View style={{ marginBottom: 10 }}>
+                <View style={{marginBottom: 10}}>
                   <Button
                     style={buttonContainerButtons}
                     title={QDESUCCESS_CONST.BUTTON_TITLE_PROCEED}
                     onPress={() => {
                       this.props.navigation.navigate('BankDetails', {
                         selectedSourceType: 'Income Proof',
-                        applicantUniqueId: isMainApplicant ? this.state.applicantUniqueId : this.state.coapplicantUniqueId,
+                        applicantUniqueId: isMainApplicant
+                          ? this.state.applicantUniqueId
+                          : this.state.coapplicantUniqueId,
                         leadCode: leadCode,
                       });
                     }}
@@ -530,21 +640,20 @@ class QdeSuccess extends Component {
                 </View>
               )}
 
-              {mainApplicant && submitToCredits && ((
-                <View style={{ marginBottom: 10 }}>
+              {mainApplicant && submitToCredits && (
+                <View style={{marginBottom: 10}}>
                   <Button
                     style={buttonContainerButtons}
                     title={QDESUCCESS_CONST.BUTTON_TITLE_SUBMIT}
                     onPress={() => {
                       // console.log("mjjjjj");
-                      this.state.creditVisible ?
-                        handleError("Co-Applicant/ Guaranter are mandatory") :
-                        this.setState({ isVisible: true })
+                      this.state.creditVisible
+                        ? handleError('Co-Applicant/ Guaranter are mandatory')
+                        : this.setState({isVisible: true});
                     }}
                   />
                 </View>
-              ))}
-
+              )}
             </View>
 
             {isMainApplicant && this.state.offerType !== 'final' && (
@@ -571,7 +680,7 @@ class QdeSuccess extends Component {
           </View>
         </ScrollView>
         {/* </ImageBackground> */}
-      </WaveBackground >
+      </WaveBackground>
     );
   }
 }

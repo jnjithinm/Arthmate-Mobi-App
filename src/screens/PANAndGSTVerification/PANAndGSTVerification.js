@@ -1868,13 +1868,18 @@ class PANAndGSTVerification extends Component {
                     } else if (
                       this.state.selectedOccupation == 'Self-Employed'
                     ) {
+                      this.isselectedGender();
                       if (
                         this.state.isPANSelected
                           ? this.state.panImageURI !== '' &&
                             this.state.panName !== '' &&
-                            this.state.panNumber.isValid
+                            this.state.panNumber.isValid &&
+                            this.state.selectedGender.value != '' &&
+                            this.state.selectedGender.value != null 
                           : this.state.panImageURI !== '' &&
-                            this.state.panName !== ''
+                            this.state.panName !== '' &&
+                            this.state.selectedGender.value != '' &&
+                            this.state.selectedGender.value != null 
                       ) {
                         this.isselectedGST();
                         const dataToAPI = {
@@ -1904,7 +1909,7 @@ class PANAndGSTVerification extends Component {
                           id: this.state.idToEdit,
                           entity: this.state.selectedEntityDrop.value,
                           gst: this.state.selectedGSTDrop.value,
-                    
+                          gender:this.state.selectedGender.value
                      
                         };
                         this.props.savePANAPI({

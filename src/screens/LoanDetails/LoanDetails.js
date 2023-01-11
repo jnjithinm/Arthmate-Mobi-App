@@ -3990,17 +3990,17 @@ class LoanDetails extends Component {
                             nachChargesMaster: this.state.nachChargesMaster,
                             stampDutyMaster: this.state.stampDutyMaster,
                             pfAmountMaster: this.state.pfAmountMaster,
-                            valueaR: Number(this.state.valueaR),
+                            valueaR: Number(this.state.valueaR).toFixed(2),
                             // this.state.selectedSourceType2 == 'Yes' ?
                             //   Number(this.state.valueaR) + Number(this.state.premiumAmount.value) : Number(this.state.valueaR),
-                            valuetR: this.state.valuetR,
+                            valuetR:Number( this.state.valuetR).toFixed(2),
                             ltvGridPercentage: this.state.ltvGridPercentage,
                             ltvGridId: this.state.ltvGridId,
                             ltvGridRule: this.state.ltvGridRule,
                             premiumAmount: this.state.premiumAmount.value,
                             relationType: this.state.selectedRelation.value,
                             otherCharges: this.state.processingCharges,
-                            processingFees: this.state.processingFees.value,
+                            processingFees: Number(this.state.processingFees.value).toFixed(2),
                             rateOfInterest: this.state.valueRateofInterest
                               .value,
                             loanVehicleBrand: this.state.loanVehicleBrand.value,
@@ -4047,13 +4047,13 @@ class LoanDetails extends Component {
                             dealerPayout: this.state.dealerPayout.value,
                             dealerPayouttype: this?.state?.dealerPayoutType?.value?.toLowerCase(),
                             stampDuty: this.state.stampDuty.value,
-                            amountSelected: this.state.amountSelected,
+                            amountSelected:Number( this.state.amountSelected).toFixed(2),
                           },
                           callback: () => {
                             this.setState({isDataSaved: true});
                           },
                         })
-                      : nullSlider;
+                      : null;
                   } else {
                     void 0;
                   }

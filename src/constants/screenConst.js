@@ -440,7 +440,7 @@ export const QDESUCCESS_CONST = {
   GREETDESCRIPTIONDDE:
     'You have successfully completed and have been verified in the Detailed Data Entry Stage.',
   GREET:
-  `Your tentative loan offer has been generated. Final offer subject to credit decisioning.' TO 'Please click submit to credit to get final decision on whether the loan has been approved`,
+  `Please click submit to credit to get final decision on whether the loan has been approved`,
   GREETDDE:
     'You have successfully completed and have been verified in the Detailed Data Entry Stage.',
   GREETQDE:
