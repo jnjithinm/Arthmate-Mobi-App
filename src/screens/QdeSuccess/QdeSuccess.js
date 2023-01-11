@@ -404,8 +404,7 @@ class QdeSuccess extends Component {
                                           });
                                           response?.data?.arthmateBreStatus ==
                                           'GO'
-                                            ? response?.data
-                                                ?.arthmateLoanStatus == 'GO'
+                                            ? response.data?.arthmateLoanStatus == 'GO'
                                               ? this.props.navigation.navigate(
                                                   'CaseReject',
                                                   {
@@ -417,14 +416,15 @@ class QdeSuccess extends Component {
                                                   },
                                                 )
                                               : this.props.navigation.navigate(
-                                                  'CaseReject',
+                                                  'CaseReject',{
+                                                  status: 'NoGo'
+                                                  }
                                                 )
                                             : this.props.navigation.navigate(
                                                 'LoanSummary',
                                                 {
                                                   leadName: name,
-                                                  applicantUniqueId: this.state
-                                                    .applicantUniqueId,
+                                                  applicantUniqueId: this.state.applicantUniqueId,
                                                   leadCode: leadCode,
                                                 },
                                               );

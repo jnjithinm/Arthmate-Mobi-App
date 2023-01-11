@@ -354,19 +354,17 @@ class BusinessDetails extends Component {
   isSelectedMaritalStatus() {
     if (this.state.SelectedMaritalStatus.value == null) {
       this.setState({SelectedMaritalStatus: {isValid: false}});
-    }else{
+    } else {
       this.isSelectedFatherorSpouse();
-
     }
   }
-  isSelectedFatherorSpouse(){
+  isSelectedFatherorSpouse() {
     if (this.state.FatherName.value == null) {
       this.setState({FatherName: {isValid: false}});
     }
     if (this.state.SpouseName.value == null) {
       this.setState({SpouseName: {isValid: false}});
     }
-
   }
 
   isSelectedSegmentItem() {
@@ -559,21 +557,20 @@ class BusinessDetails extends Component {
                   });
                 }
               }
-              if (
-                this.state.SpouseName.isValid &&
-                !this.state.FatherName.isValid
-              ) {
+              if (this.state.SpouseName.value) {
                 this.setState({
                   SelectedMaritalStatus: {
+                    ...this.state.SelectedMaritalStatus,
                     isValid: true,
                     value: 'Married',
                   },
                 });
               } else if (
-                !this.state.SpouseName.isValid &&
-                this.state.FatherName.isValid
+                !this.state.SpouseName.value &&
+                this.state.FatherName.value
               ) {
                 this.setState({
+                  ...this.state.SelectedMaritalStatus,
                   SelectedMaritalStatus: {
                     isValid: true,
                     value: 'Single',
@@ -988,7 +985,7 @@ class BusinessDetails extends Component {
                 editable={!this.state.isViewOnly}
                 label={'Father*'}
                 containerStyles={inputStyle}
-                value={this.state.FatherName}
+                value={this.state.FatherName.value}
                 onChangeText={(value) => {
                   this.setState({
                     FatherName: {
@@ -1019,7 +1016,7 @@ class BusinessDetails extends Component {
                 editable={!this.state.isViewOnly}
                 label={'Spouse*'}
                 containerStyles={inputStyle}
-                value={this.state.SpouseName}
+                value={this.state.SpouseName.value}
                 onChangeText={(value) => {
                   this.setState({
                     SpouseName: {
@@ -1524,9 +1521,12 @@ class BusinessDetails extends Component {
                     this.state.selectedGender.isValid &&
                     this.state.selectedGender.value &&
                     ((this.state.FatherName.isValid &&
-                      this.state.FatherName.value) ||
+                      this.state.FatherName.value != null &&
+                      this.state.FatherName.value != '') ||
                       (this.state.SpouseName.isValid &&
-                        this.state.SpouseName.value))
+                        this.state.SpouseName.value &&
+                        this.state.SpouseName.value != null &&
+                        this.state.SpouseName.value != ''))
                   ) {
                     const dataToAPI = {
                       applicant_uniqueid:
