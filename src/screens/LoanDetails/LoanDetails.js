@@ -2312,6 +2312,7 @@ class LoanDetails extends Component {
             }
             onPress={() => {
               Keyboard.dismiss();
+      
               this.isLoanVehicleBrand();
               this.isLoanVehicleDetails();
               this.isLoanVehicleModel();

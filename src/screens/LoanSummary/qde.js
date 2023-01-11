@@ -34,7 +34,7 @@ const qdeSectionsforSelfEmp = [
   'businessDetails',
   'loanDetails',
   'reference',
-  'scheme',
+  // 'scheme',
 ];
 
 function qde(props) {

@@ -961,8 +961,8 @@ class BusinessDetails extends Component {
               />
             </View>
             <View style={[separatorStyle]} />
-            {this.state.FatherName=='' && (
-              <Text style={errorLabel}>Select the Marital Status</Text>
+            {!this.state.FatherName && (
+              <Text style={errorLabel}>Enter the father name </Text>
             )}
           </>
         )}
@@ -989,8 +989,8 @@ class BusinessDetails extends Component {
               />
             </View>
             <View style={[separatorStyle]} />
-            {this.state.SelectedMaritalStatus=='' && (
-              <Text style={errorLabel}>Select the Marital Status</Text>
+            {!this.state.SpouseName && (
+              <Text style={errorLabel}>Enter Spouse Name</Text>
             )}
           </>
         )}
@@ -1468,7 +1468,9 @@ class BusinessDetails extends Component {
                     this.state.ifscCode.isValid &&
                     this.state.bankName.value != '' &&
                     this.state.bankName.value != null &&
-                    this.state.bankName.isValid
+                    this.state.bankName.isValid &&
+                   ( this.state.FatherName ||
+                    this.state.SpouseName)
                   ) {
                     const dataToAPI = {
                       applicant_uniqueid:

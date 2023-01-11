@@ -380,7 +380,7 @@ class QdeSuccess extends Component {
                                   comment: this.state.addressNominee.value,
                                   reason: this.state.selectedReason,
                                 },
-                                callback: () => {
+                                callback: (response) => {
                                   console.log('mjjjjjjmkkkj', response?.data);
                                   this.setState({
                                     isVisible: !this.state.isVisible,
@@ -398,7 +398,7 @@ class QdeSuccess extends Component {
                                           isguarantor: false,
                                           type: 'BRE',
                                         },
-                                        callback: (response) => {
+                                        callback: (response1) => {
                                           this.setState({
                                             isVisible: !this.state.isVisible,
                                           });

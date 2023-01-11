@@ -605,6 +605,7 @@ const LoanSummary = (props) => {
           {Object.values(loanSummary).map((item, index) => {
             const { status, Component, title } = item;
             const stepStyle = getStepColor(status);
+            console.log("status,...",title,leadCode)
             return (
               <View>
                 <View style={stepStyle.stepper}>
