@@ -29,16 +29,16 @@ class EmiCalculator extends Component {
             emi: '',
             paybleIntrest: '',
             totalPaid: '',
-            status: this.props.navigation.state.params.status,
-            leadName: this.props.navigation.state.params.leadName,
-            applicantUniqueId: this.props.navigation.state.params.applicantUniqueId,
-            leadCode: this.props.navigation.state.params.leadCode,
+            status: this.props?.navigation?.state?.params?.status,
+            leadName: this.props?.navigation?.state?.params?.leadName,
+            applicantUniqueId: this.props?.navigation?.state?.params?.applicantUniqueId,
+            leadCode: this.props?.navigation?.state?.params?.leadCode,
         };
     }
 
 
     render() {
-        console.log("sssssss", this.props.navigation.state.params.status);
+        console.log("sssssss", this.props.navigation?.state?.params?.status);
 
         return (
             <WaveBackground>

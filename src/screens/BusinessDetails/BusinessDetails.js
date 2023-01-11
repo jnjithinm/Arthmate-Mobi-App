@@ -15,7 +15,10 @@ import container from '../../container/BusinessDetails/index';
 import {Header} from '../../components/Header/Header';
 import {WaveBackground} from '../../components/WaveBackground/WaveBackground';
 import {Button} from '../../components/Button/Button';
-import {BUSINESSDETAILS_CONST,PAN_GST_CONST} from '../../constants/screenConst';
+import {
+  BUSINESSDETAILS_CONST,
+  PAN_GST_CONST,
+} from '../../constants/screenConst';
 import {BusinessDetailsStyles} from './BusinessDetailsStyles';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {handleWarning, handleError} from '../../../utils';
@@ -170,8 +173,14 @@ class BusinessDetails extends Component {
       isDataSaved: false,
       isSelected: false,
       isVerified: false,
-      FatherName: '',
-      SpouseName: '',
+      FatherName: {
+        isValid: true,
+        value: null,
+      },
+      SpouseName: {
+        isValid: true,
+        value: null,
+      },
     };
   }
   setcin(text) {
@@ -337,6 +346,28 @@ class BusinessDetails extends Component {
       this.setState({selectedIndustryItem: {isValid: false}});
     }
   }
+  isSelectedGender() {
+    if (this.state.selectedGender.value == null) {
+      this.setState({selectedGender: {isValid: false}});
+    }
+  }
+  isSelectedMaritalStatus() {
+    if (this.state.SelectedMaritalStatus.value == null) {
+      this.setState({SelectedMaritalStatus: {isValid: false}});
+    }else{
+      this.isSelectedFatherorSpouse();
+
+    }
+  }
+  isSelectedFatherorSpouse(){
+    if (this.state.FatherName.value == null) {
+      this.setState({FatherName: {isValid: false}});
+    }
+    if (this.state.SpouseName.value == null) {
+      this.setState({SpouseName: {isValid: false}});
+    }
+
+  }
 
   isSelectedSegmentItem() {
     if (this.state.selectedSegmentItem.value == null) {
@@ -477,13 +508,18 @@ class BusinessDetails extends Component {
                 value: businessdetails?.bankName || null,
                 isValid: true,
               },
-              FatherName:businessdetails?.fatherName || null,
-              SpouseName:businessdetails?.spouseName || null,
-              selectedGender:{
-                value:businessdetails?.gender || null,
-                isValid:true
-              }
-
+              FatherName: {
+                value: businessdetails?.fatherName || null,
+                isValid: true,
+              },
+              SpouseName: {
+                value: businessdetails?.spouseName || null,
+                isValid: true,
+              },
+              selectedGender: {
+                value: businessdetails?.gender || null,
+                isValid: true,
+              },
             },
             () => {
               if (
@@ -523,18 +559,26 @@ class BusinessDetails extends Component {
                   });
                 }
               }
-              if(this.state.SpouseName!='' && this.state.SpouseName!=null){
-                this.setState({SelectedMaritalStatus:{
-                  isValid:true,
-                  value:'Married'
-                }})
-              }else{
+              if (
+                this.state.SpouseName.isValid &&
+                !this.state.FatherName.isValid
+              ) {
                 this.setState({
-                  SelectedMaritalStatus:{
-                    isValid:true,
-                    value:'Single'
-                  }
-                })
+                  SelectedMaritalStatus: {
+                    isValid: true,
+                    value: 'Married',
+                  },
+                });
+              } else if (
+                !this.state.SpouseName.isValid &&
+                this.state.FatherName.isValid
+              ) {
+                this.setState({
+                  SelectedMaritalStatus: {
+                    isValid: true,
+                    value: 'Single',
+                  },
+                });
               }
             },
           );
@@ -590,7 +634,6 @@ class BusinessDetails extends Component {
                         isguarantor: this.state.isguarantor,
                         filename: response.name,
                         filePath: response?.path,
-                        
                       };
                       zipFileUploadSelfie(
                         response,
@@ -948,7 +991,10 @@ class BusinessDetails extends Component {
                 value={this.state.FatherName}
                 onChangeText={(value) => {
                   this.setState({
-                    FatherName: value,
+                    FatherName: {
+                      value,
+                      isValid: true,
+                    },
                   });
                 }}
                 customLabelStyles={{
@@ -961,14 +1007,14 @@ class BusinessDetails extends Component {
               />
             </View>
             <View style={[separatorStyle]} />
-            {!this.state.FatherName && (
+            {!this.state.FatherName.isValid && (
               <Text style={errorLabel}>Enter the father name </Text>
             )}
           </>
         )}
         {this.state.SelectedMaritalStatus.value == 'Married' && (
           <>
-            <View style={separatorStyle} style={{marginTop:26}}>
+            <View style={separatorStyle} style={{marginTop: 26}}>
               <FloatingLabelInput
                 editable={!this.state.isViewOnly}
                 label={'Spouse*'}
@@ -976,7 +1022,10 @@ class BusinessDetails extends Component {
                 value={this.state.SpouseName}
                 onChangeText={(value) => {
                   this.setState({
-                    SpouseName: value,
+                    SpouseName: {
+                      value,
+                      isValid: true,
+                    },
                   });
                 }}
                 customLabelStyles={{
@@ -989,7 +1038,7 @@ class BusinessDetails extends Component {
               />
             </View>
             <View style={[separatorStyle]} />
-            {!this.state.SpouseName && (
+            {!this.state.SpouseName.isValid && (
               <Text style={errorLabel}>Enter Spouse Name</Text>
             )}
           </>
@@ -1455,6 +1504,9 @@ class BusinessDetails extends Component {
                   this.isSelectedAccountItem();
                   this.isAccountNumber();
                   this.isIFSCCode();
+                  this.isSelectedGender();
+                  this.isSelectedMaritalStatus();
+
                   if (this.state.filePath == null) {
                     handleError('Please upload selfie.');
                   } else if (
@@ -1469,8 +1521,12 @@ class BusinessDetails extends Component {
                     this.state.bankName.value != '' &&
                     this.state.bankName.value != null &&
                     this.state.bankName.isValid &&
-                   ( this.state.FatherName ||
-                    this.state.SpouseName)
+                    this.state.selectedGender.isValid &&
+                    this.state.selectedGender.value &&
+                    ((this.state.FatherName.isValid &&
+                      this.state.FatherName.value) ||
+                      (this.state.SpouseName.isValid &&
+                        this.state.SpouseName.value))
                   ) {
                     const dataToAPI = {
                       applicant_uniqueid:
@@ -1488,8 +1544,8 @@ class BusinessDetails extends Component {
                       bankName: this.state.bankName.value,
                       verified: this.state.isVerified,
                       accountHolderName: this.state.accountHolderName,
-                      fatherName: this.state.FatherName,
-                      spouseName: this.state.SpouseName,
+                      fatherName: this.state.FatherName.value,
+                      spouseName: this.state.SpouseName.value,
                       gender: this.state.selectedGender.value,
                     };
                     if (
@@ -1535,7 +1591,12 @@ class BusinessDetails extends Component {
                         'subindustry'
                       ] = this.state.selectedSubIndustry.value;
                     }
-                    if(this.state.SelectedMaritalStatus.isValid && this.state.selectedGender.isValid &&(this.state.FatherName!='' || this.state.spouseName!='')){
+                    if (
+                      this.state.SelectedMaritalStatus.isValid &&
+                      this.state.selectedGender.isValid &&
+                      (this.state.FatherName.isValid ||
+                        this.state.SpouseName.isValid)
+                    ) {
                       this.props.saveUpdateBusinessINFO({
                         dataToAPI,
                         callback: () => {
@@ -1543,7 +1604,6 @@ class BusinessDetails extends Component {
                         },
                       });
                     }
-                  
                   }
                 }}
               />
