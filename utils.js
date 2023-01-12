@@ -1,6 +1,6 @@
 import { showMessage } from 'react-native-flash-message';
 export function genericFetch(response) {
-  console.log("genricjjrrrrjj", JSON.stringify(response, null, 4));
+  // console.log("genricjjrrrrjj", JSON.stringify(response, null, 4));
   let apiResponse = response;
   // console.log("apiResponse",apiResponse);
   if (

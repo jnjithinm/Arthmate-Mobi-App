@@ -72,10 +72,7 @@ class LoanDetails extends Component {
       selectedSubDealer: {isValid: true},
       ismainapplicant: true,
       isguarantor: false,
-      ProcessingFees_calc: {
-        value: 0,
-        isValid: true,
-      },
+   
       saveEnable: true,
       idToEdit: null,
       cancelButtonTitle: 'Cancel',
@@ -309,14 +306,14 @@ class LoanDetails extends Component {
         ) - 1;
       var dd = bb / cc;
       var ee = aa * dd;
-      let emi = ee;
+      let emi = Number(ee);
 
       let fees = (5 / 100) * Number(this.state.valueaR);
+      emi=Math.ceil(emi);
       console.log('fffff', fees);
-      emi = Math.ceil(emi);
-      return this.setState({emi});
       // this.setState({processingCharges: fees});
-     
+          // this.isProcessingFees();
+      return this.setState({emi});
     }
   };
   isNameNominee(text) {
@@ -490,21 +487,18 @@ class LoanDetails extends Component {
       const pincodeRegex = /^(100|([0-9][0-9]?(\.[0-9]+)?))$/;
       if (text != null) {
         valid = true;
-        let aa = (Number(this.state.valueaR1) * 5) / 100;
+        let aa = (Number(this.state.valueaR) * 5) / 100;
         let bb = Number(aa / 1.18).toFixed(2);
         let cc = Number(aa - bb);
 
-        console.log('is it coming ....', bb, this.state.valueaR1);
+        console.log('is it coming ....', bb, this.state.valueaR);
         this.setState({
           processingFees: {
             ...this.state.processingFees,
             value: bb,
             isValid: valid,
           },
-          // ProcessingFees_calc: {
-          //   value: bb,
-          //   isValid: valid,
-          // },
+      
           gstonProcessingFee: cc,
         });
       } else {
@@ -1007,6 +1001,7 @@ class LoanDetails extends Component {
                       },
                     });
                   }
+                  console.log("amount requested",loanData.amt_requested)
                   this.setState(
                     {
                       selectedSourceType3: loanData?.isOpdCoverage
@@ -1153,10 +1148,10 @@ class LoanDetails extends Component {
                             ? loanData.otherCharges.toString()
                             : null,
                       },
-                      processingCharges:
-                        loanData.otherCharges !== undefined
-                          ? loanData.otherCharges.toString()
-                          : '',
+                      // processingCharges:
+                      //   loanData.otherCharges !== undefined
+                      //     ? loanData.otherCharges.toString()
+                      //     : '',
                       premiumAmount: {
                         value:
                           loanData.premiumAmount !== undefined
@@ -1176,7 +1171,7 @@ class LoanDetails extends Component {
                         value: loanData.relationType || '',
                         isValid: true,
                       },
-                      emi: Math.ceil(loanData.emi) || '',
+                      emi: Number(loanData.emi).toFixed(2) || '',
                       idToEdit: loanData.id || null,
                       dateOfIncorporationText: loanData.dateOfBirth || '',
                       dobValid: true,
@@ -1225,6 +1220,7 @@ class LoanDetails extends Component {
                               applicantUniqueId: this.state.applicantUniqueId,
                             },
                             callback: (response) => {
+                     
                               this.setState({
                                 // stampDuty: {
                                 //   value: response?.data?.state.toLowerCase() == "maharashtra" ? this.state.valueaR > 100000 ? "200" : "100" : "100",
@@ -1917,8 +1913,7 @@ class LoanDetails extends Component {
                             isValid: true,
                           },
                           dealerSubvention: {
-                            value:
-                              response?.data?.dealerSubvention,
+                            value: response?.data?.dealerSubvention,
                             isValid: true,
                           },
                           nachCharges: {
@@ -2312,7 +2307,7 @@ class LoanDetails extends Component {
             }
             onPress={() => {
               Keyboard.dismiss();
-      
+
               this.isLoanVehicleBrand();
               this.isLoanVehicleDetails();
               this.isLoanVehicleModel();
@@ -2322,7 +2317,7 @@ class LoanDetails extends Component {
               this.isPFType();
               this.isValueRateofInterest(this.state.valueRateofInterest.value);
               this.isDealerCharges(this.state.dealerCharges.value);
-              this.isProcessingFees(this.state.processingFees.value);
+              // this.isProcessingFees(this.state.processingFees.value);
               this.isDealerPayout(this.state.dealerPayout.value);
               this.isInsurance(this.state.insurance.value);
               this.isExShowRoomPrice(this.state.exShowroomPrice.value);
@@ -2506,7 +2501,7 @@ class LoanDetails extends Component {
                           },
                           () => {
                             this.emiamount();
-                            // this.isProcessingFees(this.state.processingFees.value);
+                            this.isProcessingFees(this.state.valueaR);
                           },
                         );
                       },
@@ -2523,7 +2518,6 @@ class LoanDetails extends Component {
               .toFixed(2)
               .toString()
               .replace('-', '')}`}`}
-              
           </Text>
         ) : null}
         {this.state.valueaR != '' ? (
@@ -2551,12 +2545,12 @@ class LoanDetails extends Component {
 
         {/* Loan Amount - Processing Fees - GST on prossessing fees - NACH Charges - PDD Charges - Dealer Charges - Bureau Charges - Other Charges */}
         {/* { tempValue = 18 /100 * (Number(this.state.processingCharges) )} */}
+        {console.log('proceeee', Number(this.state.valueaR))}
         {console.log(
-          'proceeee',
-          Number(this.state.valueaR),
-          (18 / 100) * Number(this.state.processingCharges),
+          'Gst on processing Fee',
+          Number(this.state.gstonProcessingFee),
         )}
-        {console.log('processingCharges', Number(this.state.processingCharges))}
+        {/* {console.log('processingCharges', Number(this.state.processingCharges))} */}
         {console.log('processingFees', Number(this.state.processingFees.value))}
         {console.log('nachCharges', Number(this.state.nachCharges.value))}
         {console.log('podCharges', Number(this.state.podCharges.value))}
@@ -2564,7 +2558,7 @@ class LoanDetails extends Component {
         {console.log('bureauCharges', Number(this.state.bureauCharges.value))}
         {console.log('otherCharges', Number(this.state.otherCharges.value))}
 
-        {this.state.valueaR != '' ? (
+        {this.state.valueaR  ? (
           <Text style={[textEMI, {fontSize: 16, marginTop: 15}]}>
             {` ${`Net disbursement amount: ${'\u20B9'} ${Number(
               Number(this.state.valueaR) -
@@ -3798,7 +3792,7 @@ class LoanDetails extends Component {
     } = LoanDetailsStyles;
     console.log(
       'is it zero?',
-      this.state.ProcessingFees_calc,
+   
       this.state.valueaR1,
       this.state.processingFees.value,
     );
@@ -3991,17 +3985,19 @@ class LoanDetails extends Component {
                             nachChargesMaster: this.state.nachChargesMaster,
                             stampDutyMaster: this.state.stampDutyMaster,
                             pfAmountMaster: this.state.pfAmountMaster,
-                            valueaR: Number(this.state.valueaR).toFixed(2),
+                            valueaR: Number(this.state.valueaR),
                             // this.state.selectedSourceType2 == 'Yes' ?
                             //   Number(this.state.valueaR) + Number(this.state.premiumAmount.value) : Number(this.state.valueaR),
-                            valuetR:Number( this.state.valuetR).toFixed(2),
+                            valuetR: Number(this.state.valuetR),
                             ltvGridPercentage: this.state.ltvGridPercentage,
                             ltvGridId: this.state.ltvGridId,
                             ltvGridRule: this.state.ltvGridRule,
                             premiumAmount: this.state.premiumAmount.value,
                             relationType: this.state.selectedRelation.value,
-                            otherCharges: this.state.processingCharges,
-                            processingFees: Number(this.state.processingFees.value).toFixed(2),
+                            otherCharges: this.state.processingFees.value,
+                            processingFees: Number(
+                              this.state.processingFees.value,
+                            ).toFixed(2),
                             rateOfInterest: this.state.valueRateofInterest
                               .value,
                             loanVehicleBrand: this.state.loanVehicleBrand.value,
@@ -4048,7 +4044,9 @@ class LoanDetails extends Component {
                             dealerPayout: this.state.dealerPayout.value,
                             dealerPayouttype: this?.state?.dealerPayoutType?.value?.toLowerCase(),
                             stampDuty: this.state.stampDuty.value,
-                            amountSelected:Number( this.state.amountSelected).toFixed(2),
+                            amountSelected: Number(
+                              this.state.amountSelected,
+                            ).toFixed(2),
                           },
                           callback: () => {
                             this.setState({isDataSaved: true});

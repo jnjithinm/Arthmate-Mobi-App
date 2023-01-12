@@ -64,6 +64,7 @@ class QdeSuccess extends Component {
       reasonVisible: false,
       validReason: false,
       creditVisible: false,
+      visible_button: true,
     };
   }
 
@@ -125,6 +126,7 @@ class QdeSuccess extends Component {
     this.props.getLoanSummary({
       dataToAPI,
       callback: (response) => {
+        console.log('response is ...............', response);
         var creditVisible = false;
 
         response?.coapplicant?.length != 0
@@ -156,10 +158,7 @@ class QdeSuccess extends Component {
               }
             })
           : null;
-          response?.mainapplicant?.arthmateBreStatus == 'GO' &&
-          response?.mainapplicant?.arthmateLoanStatus == 'NOGO'?
-          handleError('Contact the administrator !'):
-          null;
+
         this.setState({
           creditVisible: creditVisible,
           reasonVisible: response?.mainapplicant?.reasonDropDownFlag,
@@ -172,6 +171,11 @@ class QdeSuccess extends Component {
               : response?.modelAccess[0]?.read
               ? true
               : false,
+          visible_button:
+            response?.mainapplicant?.arthmateBreStatus == 'GO' &&
+            response?.mainapplicant?.arthmateLoanStatus == 'NOGO'
+              ? false
+              : true,
         });
       },
     });
@@ -402,29 +406,70 @@ class QdeSuccess extends Component {
                                           this.setState({
                                             isVisible: !this.state.isVisible,
                                           });
+                                          // response?.data?.arthmateBreStatus ==
+                                          // 'GO'
+                                          //   ? response.data
+                                          //       ?.arthmateLoanStatus == 'GO'
+                                          //     ? this.props.navigation.navigate(
+                                          //         'CaseReject',
+                                          //         {
+                                          //           status: 'Go',
+                                          //           leadName: name,
+                                          //           applicantUniqueId: this
+                                          //             .state.applicantUniqueId,
+                                          //           leadCode: leadCode,
+                                          //         },
+                                          //       )
+                                          //     : this.props.navigation.navigate(
+                                          //         'CaseReject',
+                                          //         {
+                                          //           status: 'NoGo',
+                                          //         },
+                                          //       )
+                                          //   : this.props.navigation.navigate(
+                                          //       'LoanSummary',
+                                          //       {
+                                          //         leadName: name,
+                                          //         applicantUniqueId: this.state
+                                          //           .applicantUniqueId,
+                                          //         leadCode: leadCode,
+                                          //       },
+                                          //     );
                                           response?.data?.arthmateBreStatus ==
-                                          'GO'
-                                            ? response.data?.arthmateLoanStatus == 'GO'
-                                              ? this.props.navigation.navigate(
-                                                  'CaseReject',
-                                                  {
-                                                    status: 'Go',
-                                                    leadName: name,
-                                                    applicantUniqueId: this
-                                                      .state.applicantUniqueId,
-                                                    leadCode: leadCode,
-                                                  },
-                                                )
-                                              : this.props.navigation.navigate(
-                                                  'CaseReject',{
-                                                  status: 'NoGo'
-                                                  }
-                                                )
-                                            : this.props.navigation.navigate(
-                                                'LoanSummary',
+                                            'GO' &&
+                                          response?.data?.arthmateLoanStatus ==
+                                            'NOGO'
+                                            ? this.setState(
                                                 {
+                                                  isVisible: false,
+                                                  visible_button: false,
+                                                  isViewOnly: true,
+                                                },
+                                                () => {
+                                                  this.props.navigation.navigate(
+                                                    'CaseReject',
+                                                    {
+                                                      status: 'NoGo',
+                                                      // leadName: name,
+                                                      // applicantUniqueId: this.state
+                                                      //   .applicantUniqueId,
+                                                      // leadCode: leadCode,
+                                                      message:
+                                                        response.data.message,
+                                                    },
+                                                  );
+                                                },
+                                              )
+                                            : // handleError(
+                                              //   `${response.data.message}`,
+                                              // )})
+                                              this.props.navigation.navigate(
+                                                'CaseReject',
+                                                {
+                                                  status: 'Go',
                                                   leadName: name,
-                                                  applicantUniqueId: this.state.applicantUniqueId,
+                                                  applicantUniqueId: this.state
+                                                    .applicantUniqueId,
                                                   leadCode: leadCode,
                                                 },
                                               );
@@ -447,29 +492,41 @@ class QdeSuccess extends Component {
                                   reason: this.state.selectedReason,
                                 },
                                 callback: (response) => {
-                                  console.log('mjjjjjjj', response);
+                                  console.log(
+                                    'mjjjjjjj',
+                                    response,
+                                    response?.data?.arthmateLoanStatus ==
+                                      'NOGO',
+                                  );
                                   this.setState({
                                     isVisible: !this.state.isVisible,
                                   });
-                                  response?.data?.arthmateBreStatus == 'GO'
-                                    ? this.props.navigation.navigate(
+                                  response?.data?.arthmateBreStatus == 'GO' &&
+                                  response?.data?.arthmateLoanStatus == 'NOGO'
+                                    ? this.setState(
+                                        {
+                                          isVisible: false,
+                                          visible_button: false,
+                                          isViewOnly: true,
+                                        },
+                                        () => {
+                                          this.props.navigation.navigate(
+                                            'CaseReject',
+                                            {
+                                              status: 'NoGo',
+                                              // leadName: name,
+                                              // applicantUniqueId: this.state
+                                              //   .applicantUniqueId,
+                                              // leadCode: leadCode,
+                                              message: response.data.message,
+                                            },
+                                          );
+                                        },
+                                      )
+                                    : this.props.navigation.navigate(
                                         'CaseReject',
                                         {
                                           status: 'Go',
-                                          leadName: name,
-                                          applicantUniqueId: this.state
-                                            .applicantUniqueId,
-                                          leadCode: leadCode,
-                                        },
-                                      )
-                                    : response?.data?.arthmateBreStatus ==
-                                      'NOGO'
-                                    ? this.props.navigation.navigate(
-                                        'CaseReject',
-                                      )
-                                    : this.props.navigation.navigate(
-                                        'LoanSummary',
-                                        {
                                           leadName: name,
                                           applicantUniqueId: this.state
                                             .applicantUniqueId,
@@ -640,7 +697,7 @@ class QdeSuccess extends Component {
                 </View>
               )}
 
-              {mainApplicant && submitToCredits && (
+              {mainApplicant && submitToCredits && this.state.visible_button && (
                 <View style={{marginBottom: 10}}>
                   <Button
                     style={buttonContainerButtons}
