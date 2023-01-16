@@ -63,7 +63,7 @@ class EmiCalculator extends Component {
               ? 'Case Approved'
             //   : this.state.status == 'NoGo'
             //   ? 'Case Freezed'
-              : 'Case Rejected'
+              : 'Case Freezed'
           }
           showLeftIcon={false}
           onPress={() => {

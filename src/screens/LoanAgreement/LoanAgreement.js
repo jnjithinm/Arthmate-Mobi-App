@@ -174,7 +174,7 @@ class LoanAgreement extends Component {
             : false,
           disableProceed: response?.data?.loanAgreementFilePath ? true : false,
         });
-        if (response.data.type === 'esign') {
+        if (response.data.type === 'esign' || response.data.type==='esign_santion_letter' ) {
           this.setState({
             disableProceed: true,
             selectedSourceType: 'eSign Only',
@@ -454,7 +454,7 @@ class LoanAgreement extends Component {
 
   actualDownload1 = async () => {
     var link = this.state.esignFilePath.replace('/var/www/html', uatURL.URL);
-    var fileName = `Loan Agreement Esign ${
+    var fileName = `SignedDocument_${
       this.state.getCommonData.leadName + Date.now()
     }.pdf`;
     if (link) {
@@ -1062,10 +1062,10 @@ class LoanAgreement extends Component {
                         } */}
             <View style={buttonContainerLink}>{signer_info_buttons}</View>
 
-            <Text style={agreementGreet}>
+            {/* <Text style={agreementGreet}>
               {LOAN_AGREEMENT_CONST.LOAN_AGREEMENT}
-            </Text>
-            <View style={buttonContainer}>
+            </Text> */}
+            {/* <View style={buttonContainer}>
               <Button
                 style={touchableButtonStyle}
                 // isDisabled={false}
@@ -1110,13 +1110,13 @@ class LoanAgreement extends Component {
                   </View>
                 </Tooltip>
               </View>
-            </View>
+            </View> */}
             {this.state.downloadLoanAgreementPDF != '' &&
               this.state.downloadLoanAgreementPDF != undefined && (
                 <View style={[mainSalaryView, {marginRight: 15}]}>
                   <Image source={ATTACHMENT} style={plusImageStyle1} />
                   <Text style={salarySlipName}>
-                    {' '}
+                  
                     {this.state.downloadLoanAgreementPDF
                       .split('\\')
                       .pop()
@@ -1140,7 +1140,7 @@ class LoanAgreement extends Component {
                   />
                 </View>
               )}
-
+{/* 
             <View style={buttonSecondContainer}>
               <Button
                 style={touchableButtonStyle}
@@ -1222,7 +1222,7 @@ class LoanAgreement extends Component {
                   </View>
                 </Tooltip>
               </View>
-            </View>
+            </View> */}
             {this.state.uploadLoanName.docName !== null &&
               this.state.uploadLoanName.docName !== undefined && (
                 <View style={mainSalaryView}>

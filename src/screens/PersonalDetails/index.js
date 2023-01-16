@@ -556,8 +556,8 @@ console.log("mjjjjbbbbbbbb");
 
           case PERSONAL_DETAILS_CONST.ACC_HOLDER_NAME:
           setAccountHolderName(e);
-          if (!NAME_REGEX.test(e))
-            temp[type] = PERSONAL_DETAILS_CONST.INVALID_ACC_HOLDER_NAME;
+          // if (!NAME_REGEX.test(e))
+            // temp[type] = PERSONAL_DETAILS_CONST.INVALID_ACC_HOLDER_NAME;
           // if (e === null || e === '' || e === undefined)
           //   temp[type] = PERSONAL_DETAILS_CONST.REQUIRED_ACC_HOLDER_NAME;
           break;
