@@ -22,10 +22,12 @@ function mapDispatchToProps(dispatch) {
             getQDEData: loanSummaryActions.getQDEData,
             uploadDocAdditionalDetails: actions.uploadDocAdditionalDetails,
             getCityState: actions.getCityState,
+           
             getResidenceType: actions.getResidenceType,
             saveEmploymentDetails: actions.saveEmploymentDetails,
             saveAdditionalContact: actions.saveAdditionalContact,
             saveOfficeAddress: actions.saveOfficeAddress,
+            getStateList:actions.getStateList,
             getCityList: actions.getCityList,
             saveKYCDetail: actions.saveKYCDetail,
             getKYCDoc: actions.getKYCDoc,

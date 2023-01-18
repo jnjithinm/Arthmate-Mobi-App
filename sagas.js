@@ -34,7 +34,8 @@ import {
   getDesignationsSaga,
   getProfessionSaga,
   getSubCategoryListSaga,
-  getCompanyListSaga
+  getCompanyListSaga,
+  getStateListSaga
 } from './src/container/AdditionalDetails/sagas';
 import {
   addLeadSaga,
@@ -210,6 +211,7 @@ function* watchers() {
   yield takeEvery('SAVE_PERMANENT_DETAILS', savePermanentAddressSaga);
   yield takeEvery('SAVE_ADDITIONAL_CONTACT', saveAdditionalContactSaga);
   yield takeEvery('SAVE_OFFICE_ADDRESS', saveOfficeAddressSaga);
+  yield takeEvery('GET_STATE_LIST', getStateListSaga);
   yield takeEvery('GET_CITY_LIST', getCityListSaga);
   yield takeEvery('SAVE_KYC_DETAIL', saveKYCDetailSaga);
   yield takeEvery('GET_KYC_DOC', getKYCDocSaga);

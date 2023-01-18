@@ -1,6 +1,6 @@
 import { call, select, put } from 'redux-saga/effects';
 
-import { gstADDRAPI, deletePerDocumentAPI, uploadDocAdditionalDetailsApi, uploadCurrentDocument, uploadDocument, getCompanyListAPI, getCityStateAPI, getDesignationsAPI, getProfessionAPI, getSubCategoryListAPI, getResidenceTypeAPI, saveEmploymentDetailsAPI, saveAdditionalContactAPI, saveOfficeAddressAPI, savePermanentAddressAPI, getCityListAPI, saveKYCDetailAPI, getKYCDocAPI, getUtilityDocAPI, getServiceProviderAPI, saveUtilityDetailAPI, getDetailsElectricityAPI, getDetailsGasAPI, getDetailsLandlineAPI, uploadUtilityDocAPI, deleteUtilityDocAPI, verifyDrivingLicenseAPI, verifyVoterIDAPI, getDesignationAPI, deleteDocumentAPI, deleteUtilityAPI, getCompanyTypeAPI, getIndustryAPI, dedupeChecks, getDedupeId } from "../../api/AdditionalDetails";
+import { gstADDRAPI, deletePerDocumentAPI, uploadDocAdditionalDetailsApi, uploadCurrentDocument, uploadDocument, getCompanyListAPI, getCityStateAPI, getDesignationsAPI, getProfessionAPI, getSubCategoryListAPI, getResidenceTypeAPI, saveEmploymentDetailsAPI, saveAdditionalContactAPI, saveOfficeAddressAPI, savePermanentAddressAPI, getCityListAPI, saveKYCDetailAPI, getKYCDocAPI, getUtilityDocAPI, getServiceProviderAPI, saveUtilityDetailAPI, getDetailsElectricityAPI, getDetailsGasAPI, getDetailsLandlineAPI, uploadUtilityDocAPI, deleteUtilityDocAPI, verifyDrivingLicenseAPI, verifyVoterIDAPI, getDesignationAPI, deleteDocumentAPI, deleteUtilityAPI, getCompanyTypeAPI, getIndustryAPI, dedupeChecks, getDedupeId, getStateListAPI } from "../../api/AdditionalDetails";
 import { handleError, handleSuccess } from "../../../utils";
 import { userDataSelector } from "../App/selector";
 
@@ -83,6 +83,7 @@ export function* getCityState(action) {
         yield call(handleError, error);
     }
 }
+
 
 export function* getResidenceType(action) {
     try {
@@ -258,7 +259,25 @@ export function* getCityListSaga(action) {
         yield call(handleError, error);
     }
 }
+export function* getStateListSaga(action) {
+    try {
+        const userData = yield select(userDataSelector());
 
+        const mainResponse = yield call(getStateListAPI, userData.token || "");
+
+        if (mainResponse && mainResponse.data && !mainResponse.data.error) {
+            console.log("list response",mainResponse.data)
+            yield put({ type: 'GET_STATE_LIST_SUCCESS' });
+            if (action.actions && action.actions.callback) {
+                console.log("list response,,,,,,,,,,,,,,,,,,,,,",mainResponse.data)
+                action.actions.callback(mainResponse.data || {});
+            }
+        }
+    } catch (error) {
+        yield put({ type: 'GET_STATE_LIST_FAILURE' });
+        yield call(handleError, error);
+    }
+}
 export function* saveKYCDetailSaga(action) {
     try {
         const userData = yield select(userDataSelector());

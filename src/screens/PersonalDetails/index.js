@@ -1050,7 +1050,7 @@ console.log("mjjjjbbbbbbbb");
                   validForm={validForm}
                   value={accountHolderName}
                   onChangeText={(e) =>{
-                    disableNextButton(true);
+                    // disableNextButton(true);
                     validator(e, PERSONAL_DETAILS_CONST.ACC_HOLDER_NAME)
                   }
                   }

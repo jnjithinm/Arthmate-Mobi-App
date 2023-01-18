@@ -153,6 +153,7 @@ class LoanAgreement extends Component {
         ismainapplicant: true,
       },
       callback: (response) => {
+        console.log("response will come or not",response)
         this.setState({
           filePathInResponse: response?.data?.loanAgreementFilePath?.replace(
             '/var/www/html',
@@ -174,12 +175,16 @@ class LoanAgreement extends Component {
             : false,
           disableProceed: response?.data?.loanAgreementFilePath ? true : false,
         });
-        if (response.data.type === 'esign' || response.data.type==='esign_santion_letter' ) {
+        if (
+          response.data.type === 'esign' ||
+          response.data.type === 'esign_santion_letter'
+        ) {
+          console.log("response.datatype",response.data.loanAgreementFilePath)
           this.setState({
             disableProceed: true,
             selectedSourceType: 'eSign Only',
             esignFilePath:
-              response?.data.filePath.replace('/var/www/html', uatURL.URL) ||
+              response?.data?.filePath.replace('/var/www/html', uatURL.URL) ||
               '',
             filePathInResponse:
               response.data.loanAgreementFilePath == undefined
@@ -298,16 +303,16 @@ class LoanAgreement extends Component {
               ? true
               : false,
           },
-          () => {
-            this.props.getSactionLetter({
-              data: {
-                applicantUniqueId: this.state.applicantUniqueId,
-              },
-              callback: (response) => {
-                //    console.log("fffffffffff",response);
-              },
-            });
-          },
+          // () => {
+          //   this.props.getSactionLetter({
+          //     data: {
+          //       applicantUniqueId: this.state.applicantUniqueId,
+          //     },
+          //     callback: (response) => {
+          //       //    console.log("fffffffffff",response);
+          //     },
+          //   });
+          // },
         );
       },
     });
@@ -354,12 +359,13 @@ class LoanAgreement extends Component {
   };
 
   actualDownload = async () => {
-    var link = this.state.downloadLoanAgreementPDF.replace(
+    var link = this.state.filePathInResponse.replace(
       '/var/www/html',
       uatURL.URL,
     );
-    var fileName = `Loan Agreement ${
-      this.state.getCommonData.leadName + Date.now()
+    console.log("link",link)
+    var fileName = `Loan_Agreement_${
+      this.state.getCommonData.leadName+Date.now()
     }.pdf`;
     if (link) {
       if (Platform.OS === 'android') {
@@ -772,36 +778,39 @@ class LoanAgreement extends Component {
                             />
 
                         </View> */}
-
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: 30,
-              }}>
-              <TouchableOpacity
-                style={[
-                  {
-                    width: '50%',
-                    height: 45,
-                    borderRadius: 30,
-                    justifyContent: 'center',
-                    backgroundColor: colors.COLOR_LIGHT_NAVY_BLUE,
-                  },
-                ]}
-                onPress={() => {
-                  !this.state.checkVisible &&
-                    this.setState({
-                      check1: !this.state.check1,
-                      modalVisible: true,
-                    });
+      
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginBottom: 30,
                 }}>
-                <Text style={[text, {color: '#ffffff', textAlign: 'center'}]}>
-                  Sign Sanction Letter
-                </Text>
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  style={[
+                    {
+                      width: '50%',
+                      height: 45,
+                      borderRadius: 30,
+                      justifyContent: 'center',
+                      backgroundColor:this.state.esignFilePath ?colors.COLOR_LIGHT_GREY: colors.COLOR_LIGHT_NAVY_BLUE,
+                    
+                    },
+                  ]}
+                  disabled={this.state.esignFilePath}
+                  onPress={() => {
+                    !this.state.checkVisible &&
+                      this.setState({
+                        check1: !this.state.check1,
+                        modalVisible: true,
+                      });
+                  }}>
+                  <Text style={[text, {color: '#ffffff', textAlign: 'center'}]}>
+                    Sign Sanction Letter
+                  </Text>
+                </TouchableOpacity>
+              </View>
+   
             <View style={buttonContainerLink}>
               {(this.state.signDeskResponse || []).map((item, index) => (
                 <Button
@@ -822,9 +831,37 @@ class LoanAgreement extends Component {
                   }></Button>
               ))}
             </View>
+            {this.state.esignFilePath != '' &&
+              this.state.esignFilePath != undefined && (
+                <View style={[mainSalaryView, {marginRight: 15}]}>
+                  <Image source={ATTACHMENT} style={plusImageStyle1} />
+                  <Text style={[salarySlipName,{marginLeft:35}]}>
+                 
+                    {this.state.esignFilePath
+                      .split('\\')
+                      .pop()
+                      .split('/')
+                      .pop()}
+                  </Text>
+
+                  <Icon
+                    onPress={() => {
+                      // if (!this.state.isViewOnly) {
+                      this.permissionFunc1();
+                      // } else {
+                      //     handleWarning("User access denied")
+                      // }
+                    }}
+                    style={{marginLeft: 10}}
+                    size={30}
+                    name="download"
+                    type="antdesign"
+                    color={'black'}
+                  />
+                </View>
+              )}
 
             <Text style={agreementGreet}>
-              {' '}
               {LOAN_AGREEMENT_CONST.AGREEMENT_GREET}
             </Text>
 
@@ -935,35 +972,7 @@ class LoanAgreement extends Component {
                 </TouchableOpacity>
               </View>
             )}
-            {this.state.esignFilePath != '' &&
-              this.state.esignFilePath != undefined && (
-                <View style={[mainSalaryView, {marginRight: 15}]}>
-                  <Image source={ATTACHMENT} style={plusImageStyle1} />
-                  <Text style={salarySlipName}>
-                    {' '}
-                    {this.state.esignFilePath
-                      .split('\\')
-                      .pop()
-                      .split('/')
-                      .pop()}
-                  </Text>
 
-                  <Icon
-                    onPress={() => {
-                      // if (!this.state.isViewOnly) {
-                      this.permissionFunc1();
-                      // } else {
-                      //     handleWarning("User access denied")
-                      // }
-                    }}
-                    style={{marginLeft: 10}}
-                    size={30}
-                    name="download"
-                    type="antdesign"
-                    color={'black'}
-                  />
-                </View>
-              )}
             <View style={buttonContainerProceed}>
               <Button
                 title={LOAN_AGREEMENT_CONST.BUTTON_PROCEED}
@@ -1111,12 +1120,11 @@ class LoanAgreement extends Component {
                 </Tooltip>
               </View>
             </View> */}
-            {this.state.downloadLoanAgreementPDF != '' &&
+            {/* {this.state.downloadLoanAgreementPDF != '' &&
               this.state.downloadLoanAgreementPDF != undefined && (
                 <View style={[mainSalaryView, {marginRight: 15}]}>
                   <Image source={ATTACHMENT} style={plusImageStyle1} />
                   <Text style={salarySlipName}>
-                  
                     {this.state.downloadLoanAgreementPDF
                       .split('\\')
                       .pop()
@@ -1139,8 +1147,8 @@ class LoanAgreement extends Component {
                     color={'black'}
                   />
                 </View>
-              )}
-{/* 
+              )} */}
+            {/* 
             <View style={buttonSecondContainer}>
               <Button
                 style={touchableButtonStyle}
@@ -1228,7 +1236,7 @@ class LoanAgreement extends Component {
                 <View style={mainSalaryView}>
                   <Image source={ATTACHMENT} style={plusImageStyle1} />
                   <TouchableOpacity
-                    style={{width: '70%', marginTop: 10}}
+                    style={{width: '70%', marginTop: 20}}
                     onPress={() => {
                       Linking.openURL(this.state.filePathInResponse);
                     }}>
@@ -1239,38 +1247,40 @@ class LoanAgreement extends Component {
                   <Icon
                     onPress={() => {
                       if (!this.state.isViewOnly) {
-                        if (this.state.uploadLoanUploaded == true) {
-                          this.props.deleteLoanAgreement({
-                            data: {
-                              applicantUniqueId: this.state.applicantUniqueId,
-                              filePathInResponse: this.state.filePathInResponse,
-                            },
-                            callback: (response) => {
-                              this.setState((state, props) => ({
-                                uploadLoanName: {
-                                  ...state.uploadLoanName,
-                                  docName: null,
-                                },
-                                uploadLoanUploaded: false.valueOf,
-                                filePathInResponse: '',
-                              }));
-                            },
-                          });
-                        } else {
-                          this.setState((state, props) => ({
-                            uploadLoanName: {
-                              ...state.uploadLoanName,
-                              docName: null,
-                            },
-                          }));
-                        }
+                        // if (this.state.uploadLoanUploaded == true) {
+                        //   this.props.deleteLoanAgreement({
+                        //     data: {
+                        //       applicantUniqueId: this.state.applicantUniqueId,
+                        //       filePathInResponse: this.state.filePathInResponse,
+                        //     },
+                        //     callback: (response) => {
+                        //       console.log("response",response)
+                        //       this.setState((state, props) => ({
+                        //         uploadLoanName: {
+                        //           ...state.uploadLoanName,
+                        //           docName: null,
+                        //         },
+                        //         uploadLoanUploaded: false.valueOf,
+                        //         filePathInResponse: '',
+                        //       }));
+                        //     },
+                        //   });
+                        // } else {
+                        //   this.setState((state, props) => ({
+                        //     uploadLoanName: {
+                        //       ...state.uploadLoanName,
+                        //       docName: null,
+                        //     },
+                        //   }));
+                        // }
+                        this.actualDownload();
                       } else {
                         handleWarning('User access denied');
                       }
                     }}
                     style={{marginLeft: 10}}
                     size={30}
-                    name="delete"
+                    name="download"
                     type="antdesign"
                     color={'black'}
                   />

@@ -171,7 +171,7 @@ class Login extends Component {
                     <View style={childContainer}>
                         <Image style={imageStyle} source={require('../../assets/img/arthmate.png')} resizeMode={"contain"} />
                         <View>
-                            <Text style={welcomeText}>{LOGIN_CONST.HEADER}</Text>
+                            <Text style={welcomeText}>{uatURL.URL=='http://3.110.227.60:8087/cwc-sales'? LOGIN_CONST.HEADER :LOGIN_CONST.HEADER_PROD}</Text>
                             {this.renderInputs()}
                             <View style={buttonContainer}>
                                 <Button

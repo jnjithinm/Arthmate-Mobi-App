@@ -10,7 +10,9 @@ const uploadCurrentDoc = (actions) => {
 const getCityState = (actions) => {
     return { type: 'GET_CITY_STATE', actions: actions };
 };
-
+const getStateList = (actions) => {
+    return { type: 'GET_STATE_LIST', actions: actions };
+};
 const getResidenceType = (actions) => {
     return { type: 'GET_RESIDENCE_TYPE', actions: actions };
 };
@@ -139,6 +141,7 @@ export {
     saveAdditionalContact,
     saveOfficeAddress,
     getCityList,
+    getStateList,
     saveKYCDetail,
     getKYCDoc,
     getUtilityDoc,

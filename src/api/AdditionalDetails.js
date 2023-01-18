@@ -152,6 +152,28 @@ export async function getCityStateAPI(token, pincode) {
     return genericFetch(apiResponse);
 }
 
+export async function getStateListAPI(token, pincode) {
+    const requestOption = {
+        method: 'GET',
+
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+       
+        url: config.GET_STATE_LIST,
+    };
+
+    const apiResponse = await axios(requestOption)
+        .then(function (response) {
+            return genericFetch(response);
+        })
+        .catch(function (error) {
+            return genericFetch(error);
+        });
+    return genericFetch(apiResponse);
+}
+
 export async function getProfessionAPI(token) {
     const requestOption = {
         method: 'GET',
