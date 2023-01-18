@@ -266,10 +266,10 @@ export function* getStateListSaga(action) {
         const mainResponse = yield call(getStateListAPI, userData.token || "");
 
         if (mainResponse && mainResponse.data && !mainResponse.data.error) {
-            console.log("list response",mainResponse.data)
+         
             yield put({ type: 'GET_STATE_LIST_SUCCESS' });
             if (action.actions && action.actions.callback) {
-                console.log("list response,,,,,,,,,,,,,,,,,,,,,",mainResponse.data)
+              
                 action.actions.callback(mainResponse.data || {});
             }
         }
